@@ -16,7 +16,7 @@ export async function GET(req: Request) {
         return NextResponse.json({error: 'Missing code'}, {status: 400});
     }
 
-    const str = `${process.env.NEXT_PUBLIC_REDDIT_CLIENT_ID}:${process.env.NEXT_PUBLIC_REDDIT_CLIENT_SECRET}`;
+    const str = `${process.env.NEXT_PUBLIC_REDDIT_CLIENT_ID}:${process.env.REDDIT_CLIENT_SECRET}`;
     console.log(str);
 
     const auth = Buffer.from(str).toString("base64")
