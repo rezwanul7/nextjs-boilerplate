@@ -14,10 +14,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String  @id @default(cuid()) // Internal app ID
+  clerkId   String  @unique // Clerk's user ID
+  email     String  @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts Post[]
+}
+
 model Post {
   id        Int     @id @default(autoincrement())
   title     String
   content   String?
   published Boolean @default(false)
-  authorId  String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

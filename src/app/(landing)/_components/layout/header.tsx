@@ -1,8 +1,8 @@
-import {Logo} from "@/app/(landing)/components/navbar/logo";
-import {NavMenu} from "@/app/(landing)/components/navbar/nav-menu";
+import {Logo} from "@/app/(landing)/_components/layout/navbar/logo";
+import {NavMenu} from "@/app/(landing)/_components/layout/navbar/nav-menu";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
 import {Button} from "@/components/ui/button";
-import {NavigationSheet} from "@/app/(landing)/components/navbar/navigation-sheet";
+import {NavigationSheet} from "@/app/(landing)/_components/layout/navbar/navigation-sheet";
 
 export default function Header() {
     return (
