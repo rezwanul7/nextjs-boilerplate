@@ -50,6 +50,9 @@ export const columns: ColumnDef<Product>[] = [
                     />
                 </div>
             );
+        },
+        meta: {
+            label: 'Image',
         }
     },
     {
@@ -86,18 +89,24 @@ export const columns: ColumnDef<Product>[] = [
         },
         enableColumnFilter: true,
         meta: {
-            label: 'categories',
+            label: 'Categories',
             variant: 'multiSelect',
             options: CATEGORY_OPTIONS
         }
     },
     {
         accessorKey: 'price',
-        header: 'Price'
+        header: 'Price',
+        meta : {
+            label: 'Price',
+        },
     },
     {
         accessorKey: 'description',
-        header: 'Description'
+        header: 'Description',
+        meta : {
+            label: 'Description',
+        }
     },
     {
         id: 'actions',

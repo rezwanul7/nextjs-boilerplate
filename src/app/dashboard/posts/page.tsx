@@ -4,6 +4,9 @@ import {SearchParams} from "nuqs/server";
 import {searchParamsCache} from '@/lib/searchparams';
 import ProductListingPage from "@/app/dashboard/posts/_components/products-listing-page";
 import type {Metadata} from "next";
+import {Button} from "@/components/ui/button";
+import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
+import PageHeader from "@/app/dashboard/_components/layout/page-header";
 
 
 export const metadata: Metadata = {
@@ -23,21 +26,23 @@ export default async function Page(props: pageProps) {
     // const key = serialize({ ...searchParams });
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                    <div className="p-6">
-                        <Suspense
-                            // key={key}
-                            fallback={
-                                <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>
-                            }
-                        >
-                            <ProductListingPage/>
-                        </Suspense>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <PageContainer>
+            <PageHeader
+                title="Tasks"
+                description="Here&apos;s a list of your tasks for this month!"
+                actions={
+                    <Button>Add Task</Button>
+                }
+            />
+
+            <Suspense
+                // key={key}
+                fallback={
+                    <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>
+                }
+            >
+                <ProductListingPage/>
+            </Suspense>
+        </PageContainer>
     )
 }
