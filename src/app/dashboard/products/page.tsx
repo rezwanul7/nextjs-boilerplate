@@ -4,6 +4,7 @@ import {SearchParams} from "nuqs/server";
 import {searchParamsCache} from '@/lib/searchparams';
 import ProductListingPage from "@/app/dashboard/posts/_components/products-listing-page";
 import type {Metadata} from "next";
+import {DataTableDemo} from "@/app/dashboard/products/_components/table-data-demo";
 
 
 export const metadata: Metadata = {
@@ -27,14 +28,7 @@ export default async function Page(props: pageProps) {
             <div className="@container/main flex flex-1 flex-col gap-2">
                 <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
                     <div className="p-6">
-                        <Suspense
-                            // key={key}
-                            fallback={
-                                <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>
-                            }
-                        >
-                            <ProductListingPage/>
-                        </Suspense>
+                        <DataTableDemo />
                     </div>
                 </div>
             </div>
