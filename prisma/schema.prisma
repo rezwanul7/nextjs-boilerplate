@@ -30,9 +30,13 @@ model User {
 }
 
 model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
+  id       Int     @id @default(autoincrement())
+  title    String
+  content  String?
+  category String
+  slug     String  @unique
+  meta     Json?
+
   published Boolean @default(false)
 
   author   User   @relation(fields: [authorId], references: [id])

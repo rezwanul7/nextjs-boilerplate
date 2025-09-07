@@ -4,6 +4,7 @@ import {BookOpen, Menu, Settings, User, X} from "lucide-react";
 import {Button} from "@/components/ui/button"
 import {useState} from "react";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function Header2() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -61,6 +62,9 @@ export default function Header2() {
                             </SignUpButton>
                         </SignedOut>
                         <SignedIn>
+                            <Link href="/dashboard" passHref>
+                                <Button className="rounded-full">Visit Dashboard</Button>
+                            </Link>
                             <UserButton/>
                         </SignedIn>
                     </div>

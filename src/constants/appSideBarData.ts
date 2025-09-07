@@ -28,6 +28,11 @@ export const appSideBarData = {
             icon: IconListDetails,
         },
         {
+            title: "Products",
+            url: "/dashboard/products",
+            icon: IconListDetails,
+        },
+        {
             title: "Account",
             url: "/dashboard/user-profile",
             icon: IconSettings,

@@ -11,10 +11,11 @@ import {
 import { IconEdit, IconDotsVertical, IconTrash } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import {Product} from "@/app/dashboard/posts/_lib/product.types";
+
+import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 
 interface CellActionProps {
-    data: Product;
+    data: PostDto;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
@@ -43,7 +44,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
                     <DropdownMenuItem
-                        onClick={() => router.push(`/dashboard/product/${data.id}`)}
+                        onClick={() => router.push(`/dashboard/post/${data.id}`)}
                     >
                         <IconEdit className='mr-2 h-4 w-4' /> Update
                     </DropdownMenuItem>

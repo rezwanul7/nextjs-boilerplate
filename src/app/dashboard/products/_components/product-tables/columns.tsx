@@ -6,7 +6,7 @@ import {CheckCircle2, Text, XCircle} from 'lucide-react';
 import Image from 'next/image';
 import {CellAction} from './cell-action';
 import {CATEGORY_OPTIONS} from './options';
-import {Product} from "@/app/dashboard/posts/_lib/product.types";
+import {Product} from "@/app/dashboard/products/_lib/product.types";
 import {Checkbox} from "@/components/ui/checkbox";
 import * as React from "react";
 
@@ -64,7 +64,7 @@ export const columns: ColumnDef<Product>[] = [
         cell: ({cell}) => <div>{cell.getValue<Product['name']>()}</div>,
         meta: {
             label: 'Name',
-            placeholder: 'Search products...',
+            placeholder: 'Search data...',
             variant: 'text',
             icon: Text
         },

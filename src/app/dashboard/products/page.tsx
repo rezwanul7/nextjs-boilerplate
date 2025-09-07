@@ -1,10 +1,12 @@
 import {Suspense} from "react";
 import {DataTableSkeleton} from "@/components/data-table/data-table-skeleton";
 import {SearchParams} from "nuqs/server";
-import {searchParamsCache} from '@/lib/searchparams';
-import ProductListingPage from "@/app/dashboard/posts/_components/products-listing-page";
+import ProductListingPage from "@/app/dashboard/products/_components/products-listing-page";
 import type {Metadata} from "next";
-import {DataTableDemo} from "@/app/dashboard/products/_components/table-data-demo";
+import {Button} from "@/components/ui/button";
+import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
+import PageHeader from "@/app/dashboard/_components/layout/page-header";
+import {productSearch} from "@/app/dashboard/products/_lib/product.types";
 
 
 export const metadata: Metadata = {
@@ -17,21 +19,30 @@ type pageProps = {
 
 export default async function Page(props: pageProps) {
     const searchParams = await props.searchParams;
-    // Allow nested RSCs to access the search params (in a type-safe way)
-    searchParamsCache.parse(searchParams);
+
+    const parsed = productSearch.cache.parse(searchParams);
 
     // This key is used for invoke suspense if any of the search params changed (used for filters).
-    // const key = serialize({ ...searchParams });
+    const key = productSearch.serialize(parsed);
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                    <div className="p-6">
-                        <DataTableDemo />
-                    </div>
-                </div>
-            </div>
-        </div>
+        <PageContainer>
+            <PageHeader
+                title="Products"
+                description="A list of data (fetched using mock API)."
+                actions={
+                    <Button>Add Product</Button>
+                }
+            />
+
+            <Suspense
+                key={key}
+                fallback={
+                    <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>
+                }
+            >
+                <ProductListingPage/>
+            </Suspense>
+        </PageContainer>
     )
 }

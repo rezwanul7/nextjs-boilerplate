@@ -4,7 +4,7 @@
 
 import {faker} from '@faker-js/faker';
 import {matchSorter} from 'match-sorter';
-import {Product} from "@/app/dashboard/posts/_lib/product.types"; // For filtering
+import {Product} from "@/app/dashboard/products/_lib/product.types"; // For filtering
 
 export const delay = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
@@ -61,7 +61,7 @@ export const fakeProducts = {
     }) {
         let products = [...this.records];
 
-        // Filter products based on selected categories
+        // Filter data based on selected categories
         if (categories.length > 0) {
             products = products.filter((product) =>
                 categories.includes(product.category)
@@ -91,7 +91,7 @@ export const fakeProducts = {
         search?: string;
     }) {
         await delay(1000);
-        const categoriesArray = categories ? categories.split('.') : [];
+        const categoriesArray = categories ? categories.split(',') : [];
         const allProducts = await this.getAll({
             categories: categoriesArray,
             search
@@ -110,10 +110,10 @@ export const fakeProducts = {
             success: true,
             time: currentTime,
             message: 'Sample data for testing and learning purposes',
-            total_products: totalProducts,
+            total: totalProducts,
             offset,
             limit,
-            products: paginatedProducts
+            data: paginatedProducts
         };
     },
 
@@ -143,5 +143,5 @@ export const fakeProducts = {
     }
 };
 
-// Initialize sample products
+// Initialize sample data
 fakeProducts.initialize();

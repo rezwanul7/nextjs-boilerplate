@@ -1,12 +1,12 @@
-import Form from 'next/form'
-import prisma from '@/lib/prisma'
-import { redirect } from 'next/navigation'
-import { SignInButton, useAuth } from '@clerk/nextjs'
-import { revalidatePath } from 'next/cache'
-import { auth } from '@clerk/nextjs/server'
+import {SignInButton} from '@clerk/nextjs'
+import {auth} from '@clerk/nextjs/server'
+import PageHeader from "@/app/dashboard/_components/layout/page-header";
+import {Button} from "@/components/ui/button";
+import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
+import CreatePostForm from "@/app/dashboard/posts/_components/create-post-form";
 
 export default async function NewPost() {
-    const { userId } = await auth()
+    const {userId} = await auth()
 
     // Protect this page from unauthenticated users
     if (!userId) {
@@ -25,62 +25,13 @@ export default async function NewPost() {
         )
     }
 
-    async function createPost(formData: FormData) {
-        'use server'
-
-        // Type check
-        if (!userId) return
-
-        const title = formData.get('title') as string
-        const content = formData.get('content') as string
-
-        await prisma.post.create({
-            data: {
-                title,
-                content,
-                authorId: userId,
-            },
-        })
-
-        revalidatePath('/')
-        redirect('/')
-    }
 
     return (
-        <div className="mx-auto max-w-2xl p-4">
-            <h1 className="mb-6 text-2xl font-bold">Create New Post</h1>
-            <Form action={createPost} className="space-y-6">
-                <div>
-                    <label htmlFor="title" className="mb-2 block text-lg">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        placeholder="Enter your post title"
-                        className="w-full rounded-lg border px-4 py-2"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="content" className="mb-2 block text-lg">
-                        Content
-                    </label>
-                    <textarea
-                        id="content"
-                        name="content"
-                        placeholder="Write your post content here..."
-                        rows={6}
-                        className="w-full rounded-lg border px-4 py-2"
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="inline-block w-full rounded-lg border-2 border-current px-4 py-2 text-current transition-all hover:scale-[0.98]"
-                >
-                    Create Post
-                </button>
-            </Form>
-        </div>
+        <PageContainer>
+            <PageHeader
+                title="Create New Post"
+            />
+            <CreatePostForm/>
+        </PageContainer>
     )
 }

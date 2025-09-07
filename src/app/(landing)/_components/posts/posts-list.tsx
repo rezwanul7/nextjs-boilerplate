@@ -276,7 +276,7 @@ export default function PostsList() {
             <div className="max-w-7xl mx-auto px-6 py-8">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                     <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
-                        {/* Left Sidebar - Post List */}
+                        {/* Left Sidebar - PostDto List */}
                         <div className="lg:col-span-2 border-r border-gray-200 dark:border-gray-700">
                             {/* Header with filters */}
                             <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
@@ -307,7 +307,7 @@ export default function PostsList() {
                                 </div>
                             </div>
 
-                            {/* Post List */}
+                            {/* PostDto List */}
                             <div className="overflow-y-auto h-[500px]">
                                 {filteredPosts.map((post) => (
                                     <div

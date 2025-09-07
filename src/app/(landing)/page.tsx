@@ -4,7 +4,7 @@ import {samplePosts} from "@/app/(landing)/_data/data";
 import PostsList from "@/app/(landing)/_components/posts/posts-list";
 
 export default async function Page() {
-    const posts = await prisma.post.findMany() // Query the `Post` model for all posts
+    const posts = await prisma.post.findMany() // Query the `PostDto` model for all posts
 
     return (
         <>
