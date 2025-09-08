@@ -13,6 +13,7 @@ import InputFormField from "@/components/form/input-form-field";
 import TextareaFormField from "@/components/form/textarea-form-field";
 import {FormFooter} from "@/components/form/form-footer";
 import {ComboboxFormField} from "@/components/form/combobox-form-field";
+import {SimpleEditor} from "@/components/tiptap-templates/simple/simple-editor";
 
 export default function CreatePostForm() {
     const form = useForm<CreatePostDto>({
@@ -105,6 +106,9 @@ export default function CreatePostForm() {
                     placeholder="Meta image URL"
                 />
 
+                <div className="flex w-full overflow-auto">
+                    <SimpleEditor />
+                </div>
                 {/* Submit */}
                 <FormFooter>
                     <Button type="submit">Create Post</Button>
