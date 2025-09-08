@@ -14,6 +14,7 @@ import TextareaFormField from "@/components/form/textarea-form-field";
 import {FormFooter} from "@/components/form/form-footer";
 import {ComboboxFormField} from "@/components/form/combobox-form-field";
 import {SimpleEditor} from "@/components/tiptap-templates/simple/simple-editor";
+import {RHFSimpleEditor} from "@/components/form/RichTextEditorInput";
 
 export default function CreatePostForm() {
     const form = useForm<CreatePostDto>({
@@ -64,14 +65,20 @@ export default function CreatePostForm() {
                     placeholder="Enter post title"
                 />
 
-                {/* Content */}
-                <TextareaFormField
-                    control={form.control}
+                {/*/!* Content *!/*/}
+                {/*<TextareaFormField*/}
+                {/*    control={form.control}*/}
+                {/*    name="content"*/}
+                {/*    label="Content"*/}
+                {/*    placeholder="Write your post content..."*/}
+                {/*    rows={6}*/}
+                {/*/>*/}
+
+                <RHFSimpleEditor
                     name="content"
-                    label="Content"
-                    placeholder="Write your post content..."
-                    rows={6}
+                    control={form.control}
                 />
+
 
                 {/* Category */}
                 <ComboboxFormField
@@ -106,10 +113,9 @@ export default function CreatePostForm() {
                     placeholder="Meta image URL"
                 />
 
-                <div className="flex w-full overflow-auto">
-                    <SimpleEditor />
-                </div>
-                {/* Submit */}
+                {/*<div className="flex w-full overflow-auto">*/}
+                {/*    <SimpleEditor />*/}
+                {/*</div>*/}
                 <FormFooter>
                     <Button type="submit">Create Post</Button>
                 </FormFooter>

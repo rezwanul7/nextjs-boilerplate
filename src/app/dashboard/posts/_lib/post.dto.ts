@@ -16,7 +16,7 @@ export const PostSchema = z.object({
 // Create DTO
 export const CreatePostSchema = z.object({
     title: z.string().min(3, "Title must be at least 3 characters"),
-    content: z.string().optional(),
+    content: z.string().min(20, "Content must be at least 10 characters"),
     category: CategoryUtils.zodSchema,
     slug: z.string().min(3, "Slug must be at least 3 characters"),
     meta: z
