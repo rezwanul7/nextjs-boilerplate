@@ -1,0 +1,44 @@
+import {faker} from "@faker-js/faker";
+import {type Category, CategoryEnum} from "./category.utils";
+import prisma from "@/lib/prisma";
+
+
+/**
+ * Seed posts for a specific author.
+ * @param authorId - The ID of the author to assign to posts
+ * @param count - Number of posts to generate
+ */
+export async function seedPosts(authorId: string, count = 10) {
+    const categories = Object.values(CategoryEnum);
+
+    const postsData = Array.from({length: count}).map(() => {
+        const category = faker.helpers.arrayElement(categories) as Category;
+        const title = faker.lorem.sentence();
+        const slug = faker.helpers.slugify(title).toLowerCase();
+        const content = faker.lorem.paragraphs(faker.number.int({min: 1, max: 5}));
+        const published = faker.datatype.boolean();
+        const meta = {
+            description: faker.lorem.sentence(),
+            image: faker.image.url(),
+        };
+
+        return {
+            title,
+            slug,
+            content,
+            category,
+            published,
+            meta,
+            authorId,
+            createdAt: faker.date.past(),
+            updatedAt: new Date(),
+        };
+    });
+
+    const created = await prisma.post.createMany({
+        data: postsData,
+        skipDuplicates: true, // avoids conflicts with unique slugs
+    });
+
+    console.log(`Seeded ${created.count} posts for authorId=${authorId}`);
+}

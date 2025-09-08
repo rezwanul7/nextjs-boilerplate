@@ -1,9 +1,9 @@
 import {SignInButton} from '@clerk/nextjs'
 import {auth} from '@clerk/nextjs/server'
 import PageHeader from "@/app/dashboard/_components/layout/page-header";
-import {Button} from "@/components/ui/button";
 import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
 import CreatePostForm from "@/app/dashboard/posts/_components/create-post-form";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 
 export default async function NewPost() {
     const {userId} = await auth()
@@ -31,7 +31,15 @@ export default async function NewPost() {
             <PageHeader
                 title="Create New Post"
             />
-            <CreatePostForm/>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Post Information</CardTitle>
+                    <CardDescription>Please fill out your details below</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <CreatePostForm/>
+                </CardContent>
+            </Card>
         </PageContainer>
     )
 }

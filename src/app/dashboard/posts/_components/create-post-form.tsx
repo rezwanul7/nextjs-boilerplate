@@ -1,24 +1,21 @@
 "use client";
 
-import {Controller, useForm} from "react-hook-form";
+import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/ui/select";
 import {CreatePostDto, CreatePostSchema} from "@/app/dashboard/posts/_lib/post.dto";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
 import {createPost} from "@/app/dashboard/posts/_lib/post.actions";
 import {ServerActionResult} from "@/types/server-action";
 import {toast} from "sonner";
+import {Form,} from "@/components/ui/form";
+import InputFormField from "@/components/form/input-form-field";
+import TextareaFormField from "@/components/form/textarea-form-field";
+import {FormFooter} from "@/components/form/form-footer";
+import {ComboboxFormField} from "@/components/form/combobox-form-field";
 
 export default function CreatePostForm() {
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: {errors},
-    } = useForm<CreatePostDto>({
+    const form = useForm<CreatePostDto>({
         resolver: zodResolver(CreatePostSchema),
         defaultValues: {
             title: "",
@@ -55,97 +52,64 @@ export default function CreatePostForm() {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Title */}
-            <div>
-                <label htmlFor="title" className="mb-2 block text-lg">
-                    Title
-                </label>
-                <Input id="title" {...register("title")} />
-                {errors.title && (
-                    <p className="text-red-500">{errors.title.message}</p>
-                )}
-            </div>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-            {/* Content */}
-            <div>
-                <label htmlFor="content" className="mb-2 block text-lg">
-                    Content
-                </label>
-                <Textarea id="content" {...register("content")} rows={6}/>
-                {errors.content && (
-                    <p className="text-red-500">{errors.content.message}</p>
-                )}
-            </div>
-
-            {/* Category (controlled with Controller) */}
-            <div>
-                <label htmlFor="category" className="mb-2 block text-lg">
-                    Category
-                </label>
-                <Controller
-                    name="category"
-                    control={control}
-                    render={({field}) => (
-                        <Select
-                            onValueChange={field.onChange}
-                            value={field.value}
-                        >
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select category"/>
-                            </SelectTrigger>
-                            <SelectContent>
-                                {CategoryUtils.getValues().map((cat) => (
-                                    <SelectItem key={cat} value={cat}>
-                                        {CategoryUtils.getOptions([cat])[0].label}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    )}
+                {/* Title */}
+                <InputFormField
+                    control={form.control}
+                    name="title"
+                    label="Title"
+                    placeholder="Enter post title"
                 />
-                {errors.category && (
-                    <p className="text-red-500">{errors.category.message}</p>
-                )}
-            </div>
 
-            {/* Slug */}
-            <div>
-                <label htmlFor="slug" className="mb-2 block text-lg">
-                    Slug
-                </label>
-                <Input id="slug" {...register("slug")} />
-                {errors.slug && (
-                    <p className="text-red-500">{errors.slug.message}</p>
-                )}
-            </div>
+                {/* Content */}
+                <TextareaFormField
+                    control={form.control}
+                    name="content"
+                    label="Content"
+                    placeholder="Write your post content..."
+                    rows={6}
+                />
 
-            {/* Meta Description */}
-            <div>
-                <label htmlFor="meta.description" className="mb-2 block text-lg">
-                    Meta Description
-                </label>
-                <Input id="meta.description" {...register("meta.description")} />
-                {errors.meta?.description && (
-                    <p className="text-red-500">{errors.meta.description.message}</p>
-                )}
-            </div>
+                {/* Category */}
+                <ComboboxFormField
+                    control={form.control}
+                    name="category"
+                    label="Category"
+                    placeholder="Select category"
+                    values={CategoryUtils.getSelectOptions()}
+                />
 
-            {/* Meta Image */}
-            <div>
-                <label htmlFor="meta.image" className="mb-2 block text-lg">
-                    Meta Image URL
-                </label>
-                <Input id="meta.image" {...register("meta.image")} />
-                {errors.meta?.image && (
-                    <p className="text-red-500">{errors.meta.image.message}</p>
-                )}
-            </div>
+                {/* Slug */}
+                <InputFormField
+                    control={form.control}
+                    name="slug"
+                    label="Slug"
+                    placeholder="Enter post slug"
+                />
 
-            {/* Submit */}
-            <Button type="submit" className="w-full">
-                Create Post
-            </Button>
-        </form>
+                {/* Meta Description */}
+                <InputFormField
+                    control={form.control}
+                    name="meta.description"
+                    label="Meta Description"
+                    placeholder="Meta description"
+                />
+
+                {/* Meta Image */}
+                <InputFormField
+                    control={form.control}
+                    name="meta.image"
+                    label="Meta Image URL"
+                    placeholder="Meta image URL"
+                />
+
+                {/* Submit */}
+                <FormFooter>
+                    <Button type="submit">Create Post</Button>
+                </FormFooter>
+            </form>
+        </Form>
     );
 }

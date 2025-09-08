@@ -21,7 +21,7 @@ export const CreatePostSchema = z.object({
     slug: z.string().min(3, "Slug must be at least 3 characters"),
     meta: z
         .object({
-            description: z.string().optional(),
+            description: z.string().min(3, "Description must be at least 3 characters"),
             image: z.string().optional(),
         })
         .optional(),

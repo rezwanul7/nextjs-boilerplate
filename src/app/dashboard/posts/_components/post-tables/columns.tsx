@@ -2,13 +2,15 @@
 import {Badge} from '@/components/ui/badge';
 import {DataTableColumnHeader} from '@/components/data-table/data-table-column-header';
 import {Column, ColumnDef} from '@tanstack/react-table';
-import {CheckCircle2, Text, XCircle} from 'lucide-react';
+import {CalendarIcon, CheckCircle2, Text, XCircle} from 'lucide-react';
 import Image from 'next/image';
 import {CellAction} from './cell-action';
 import {CATEGORY_OPTIONS} from './options';
 import {Checkbox} from "@/components/ui/checkbox";
 import * as React from "react";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
+import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
+import {formatDate} from "@/lib/format";
 
 export const columns: ColumnDef<PostDto>[] = [
     {
@@ -37,33 +39,14 @@ export const columns: ColumnDef<PostDto>[] = [
         enableHiding: false,
     },
     {
-        accessorKey: 'photo_url',
-        header: 'Image',
-        cell: ({row}) => {
-            return (
-                <div className='relative aspect-square'>
-                    <Image
-                        src={row.getValue('photo_url')}
-                        alt={row.getValue('name')}
-                        fill
-                        className='rounded-lg'
-                    />
-                </div>
-            );
-        },
-        meta: {
-            label: 'Image',
-        }
-    },
-    {
-        id: 'name',
-        accessorKey: 'name',
+        id: 'title',
+        accessorKey: 'title',
         header: ({column}: { column: Column<PostDto, unknown> }) => (
-            <DataTableColumnHeader column={column} title='Name'/>
+            <DataTableColumnHeader column={column} title='Title'/>
         ),
-        cell: ({cell}) => <div>{cell.getValue<PostDto['name']>()}</div>,
+        cell: ({cell}) => <div>{cell.getValue<PostDto['title']>()}</div>,
         meta: {
-            label: 'Name',
+            label: 'Title',
             placeholder: 'Search data...',
             variant: 'text',
             icon: Text
@@ -91,22 +74,29 @@ export const columns: ColumnDef<PostDto>[] = [
         meta: {
             label: 'Categories',
             variant: 'multiSelect',
-            options: CATEGORY_OPTIONS
+            options: CategoryUtils.getSelectOptions()
         }
     },
     {
-        accessorKey: 'price',
-        header: 'Price',
+        accessorKey: 'slug',
+        header: 'Slug',
         meta : {
-            label: 'Price',
+            label: 'Slug',
         },
     },
     {
-        accessorKey: 'description',
-        header: 'Description',
-        meta : {
-            label: 'Description',
-        }
+        id: "createdAt",
+        accessorKey: "createdAt",
+        header: ({ column }) => (
+            <DataTableColumnHeader column={column} title="Created At" />
+        ),
+        cell: ({ cell }) => formatDate(cell.getValue<Date>()),
+        meta: {
+            label: "Created At",
+            variant: "dateRange",
+            icon: CalendarIcon,
+        },
+        enableColumnFilter: true,
     },
     {
         id: 'actions',

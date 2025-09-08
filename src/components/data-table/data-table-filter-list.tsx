@@ -60,7 +60,7 @@ import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getDefaultFilterOperator, getFilterOperators } from "@/lib/data-table";
 import { formatDate } from "@/lib/format";
 import { generateId } from "@/lib/id";
-import { getFiltersStateParser } from "@/lib/parsers";
+import { getFiltersStateParser } from "@/lib/search-params.parsers";
 import { cn } from "@/lib/utils";
 import type {
   ExtendedColumnFilter,

@@ -21,10 +21,22 @@ export function createEnumHelpers<
         /** List all enum values */
         getValues: (): T[keyof T][] => [...values],
 
-        /** Get options with display config, optionally filtered by subset */
+        /** Get options enriched with display config, optionally filtered by subset */
         getOptions: (subset?: T[keyof T][]): Array<{ value: T[keyof T] } & D[T[keyof T]]> => {
             const filtered = subset ? subset.filter((v) => values.includes(v)) : values;
-            return filtered.map((v) => ({ value: v, ...displayConfig[v] }));
+            return filtered.map((v) => ({value: v, ...displayConfig[v]}));
+        },
+
+
+        /** Dedicated select options (label + value only) */
+        getSelectOptions: (
+            subset?: T[keyof T][]
+        ): Array<{ label: string; value: T[keyof T] }> => {
+            const filtered = subset ? subset.filter((v) => values.includes(v)) : values;
+            return filtered.map((v) => ({
+                value: v,
+                label: (displayConfig[v] as any).label ?? v, // fallback to value if no label
+            }));
         },
 
         /** Zod schema for validation */
