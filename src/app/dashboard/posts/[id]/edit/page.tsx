@@ -2,11 +2,14 @@ import {SignInButton} from '@clerk/nextjs'
 import {auth} from '@clerk/nextjs/server'
 import PageHeader from "@/app/dashboard/_components/layout/page-header";
 import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
-import CreatePostForm from "@/app/dashboard/posts/_components/create-post-form";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
+import UpdatePostForm from "@/app/dashboard/posts/_components/update-post-form";
+import {postService} from "@/app/dashboard/posts/_lib/post.service";
 
-export default async function Page() {
-    const {userId} = await auth()
+export default async function Page(props: {
+    params: Promise<{ id: string }>
+}) {
+    const {userId} = await auth();
 
     // Protect this page from unauthenticated users
     if (!userId) {
@@ -25,6 +28,17 @@ export default async function Page() {
         )
     }
 
+    const params = await props.params;
+    const postId = Number(params.id);
+    const postDto = await postService.getPostById(postId);
+
+    if (!postDto) {
+        return (
+            <div className="mx-auto mt-8 flex min-h-screen max-w-2xl flex-col">
+                <div>No post found.</div>
+            </div>
+        )
+    }
 
     return (
         <PageContainer>
@@ -37,7 +51,7 @@ export default async function Page() {
                     <CardDescription>Please fill out your details below</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <CreatePostForm/>
+                    <UpdatePostForm post={postDto}/>
                 </CardContent>
             </Card>
         </PageContainer>

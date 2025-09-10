@@ -3,9 +3,9 @@
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
-import {CreatePostDto, CreatePostSchema, PostDto} from "@/app/dashboard/posts/_lib/post.dto";
+import {PostDto, UpdatePostDto, UpdatePostSchema} from "@/app/dashboard/posts/_lib/post.dto";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
-import {createPost} from "@/app/dashboard/posts/_lib/post.actions";
+import {updatePost} from "@/app/dashboard/posts/_lib/post.actions";
 import {ServerActionResult} from "@/types/server-action";
 import {toast} from "sonner";
 import {Form,} from "@/components/ui/form";
@@ -13,28 +13,28 @@ import InputFormField from "@/components/form/input-form-field";
 import {FormFooter} from "@/components/form/form-footer";
 import {ComboboxFormField} from "@/components/form/combobox-form-field";
 import {RichTextEditorInput} from "@/components/form/rich-text-editor-input";
-import {mapValidationErrorsToRHF} from "@/lib/form/mapValidationErrorsToRHF";
-import React from "react";
 
-export default function CreatePostForm() {
-    const form = useForm<CreatePostDto>({
-        resolver: zodResolver(CreatePostSchema),
+interface UpdatePostFormProps {
+    post: PostDto
+}
+
+export default function UpdatePostForm({post}: UpdatePostFormProps) {
+    const form = useForm<UpdatePostDto>({
+        resolver: zodResolver(UpdatePostSchema),
         defaultValues: {
-            title: "",
-            content: "",
+            title: post.title,
+            content: post.content ?? undefined,
             category: undefined, // must be selected by user
-            slug: "",
+            slug: post.slug,
             meta: {
-                description: "",
+                description: post.meta?.description ?? "",
                 image: "",
             },
             // published: false,
         },
     });
 
-    const {control, setError, formState: {errors}, handleSubmit} = form;
-
-    const onSubmit = async (data: CreatePostDto) => {
+    const onSubmit = async (data: UpdatePostDto) => {
         console.log("Form submitted:", data);
 
         const formData = new FormData();
@@ -46,16 +46,11 @@ export default function CreatePostForm() {
             }
         });
 
-        const result: ServerActionResult<PostDto> = await createPost(formData);
+        const result: ServerActionResult<null> = await updatePost(post.id, formData);
 
         if (result.success) {
-            toast.success(result.data.meta?.description);
+            toast.success(result.message);
         } else {
-
-            // If there are server-side validation errors, map them to the form
-            // setError("root.serverError", {type: "server", message: result.message})
-            mapValidationErrorsToRHF(form.setError, result.errors);
-
             toast.error(result.message);
         }
     };
@@ -63,12 +58,6 @@ export default function CreatePostForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
-                {errors.root?.serverError && (
-                    <p className="text-red-500">
-                        {errors.root.serverError.message}
-                    </p>
-                )}
 
                 {/* Title */}
                 <InputFormField
@@ -85,6 +74,17 @@ export default function CreatePostForm() {
                     placeholder="Enter post slug"
                 />
 
+                {/*/!* Content *!/*/}
+                {/*<TextareaFormField*/}
+                {/*    control={form.control}*/}
+                {/*    name="content"*/}
+                {/*    label="Content"*/}
+                {/*    placeholder="Write your post content..."*/}
+                {/*    rows={6}*/}
+                {/*/>*/}
+
+
+                {/* Category */}
                 <ComboboxFormField
                     control={form.control}
                     name="category"
@@ -93,11 +93,13 @@ export default function CreatePostForm() {
                     values={CategoryUtils.getSelectOptions()}
                 />
 
+
                 <RichTextEditorInput
                     name="content"
                     label="Content"
                     control={form.control}
                 />
+
                 {/* Meta Description */}
                 <InputFormField
                     control={form.control}
@@ -114,8 +116,11 @@ export default function CreatePostForm() {
                     placeholder="Meta image URL"
                 />
 
+                {/*<div className="flex w-full overflow-auto">*/}
+                {/*    <SimpleEditor />*/}
+                {/*</div>*/}
                 <FormFooter>
-                    <Button type="submit"> Create Post</Button>
+                    <Button type="submit">Update Post</Button>
                 </FormFooter>
             </form>
         </Form>

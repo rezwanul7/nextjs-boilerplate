@@ -1,5 +1,5 @@
 import Form from 'next/form'
-import prisma from '@/lib/prisma'
+import {prisma} from '@/lib/prisma'
 import {redirect} from 'next/navigation'
 import {SignInButton} from '@clerk/nextjs'
 import {revalidatePath} from 'next/cache'

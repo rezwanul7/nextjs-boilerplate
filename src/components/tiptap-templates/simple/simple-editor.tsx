@@ -174,7 +174,7 @@ const MobileToolbarContent = ({
 )
 
 interface SimpleEditorProps {
-    value?: string
+    value?: any
     onChange?: (value: string) => void
 }
 

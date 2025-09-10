@@ -1,5 +1,16 @@
 import {z} from "zod";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
+import {UserSchema} from "@/app/dashboard/users/_lib/user.dto";
+
+// --- Reusable Meta Schema ---
+export const PostMetaSchema = z
+    .object({
+        description: z.string()
+            .min(3, "Description must be at least 3 characters")
+            .max(160, "Description must be at most 160 characters"),
+        image: z.string().optional(),
+    })
+    .optional();
 
 export const PostSchema = z.object({
     id: z.number(),
@@ -11,20 +22,25 @@ export const PostSchema = z.object({
     authorId: z.string(),
     createdAt: z.date(),
     updatedAt: z.date(),
+    meta: PostMetaSchema,
+});
+
+// Extend PostSchema to include author
+export const PostWithUserSchema = PostSchema.extend({
+    author: UserSchema.optional(),
 });
 
 // Create DTO
 export const CreatePostSchema = z.object({
-    title: z.string().min(3, "Title must be at least 3 characters"),
-    content: z.string().min(20, "Content must be at least 10 characters"),
+    title: z.string()
+        .min(3, "Title must be at least 3 characters")
+        .includes("Post", {message: "Title must include the word 'Post'"}),
+
+    content: z.string()
+        .min(3, "Content must be at least 3 characters"),
     category: CategoryUtils.zodSchema,
     slug: z.string().min(3, "Slug must be at least 3 characters"),
-    meta: z
-        .object({
-            description: z.string().min(3, "Description must be at least 3 characters"),
-            image: z.string().optional(),
-        })
-        .optional(),
+    meta: PostMetaSchema,
     // published: z.boolean().default(false),
 });
 
@@ -32,6 +48,7 @@ export const CreatePostSchema = z.object({
 // Update DTO (partial)
 export const UpdatePostSchema = CreatePostSchema.partial();
 
-export type PostDto = z.infer<typeof PostSchema>;
+export type PostDto = z.infer<typeof PostWithUserSchema>;
 export type CreatePostDto = z.infer<typeof CreatePostSchema>;
 export type UpdatePostDto = z.infer<typeof UpdatePostSchema>;
+export type PostMetaDto = z.infer<typeof PostMetaSchema>;

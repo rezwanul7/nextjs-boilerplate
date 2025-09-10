@@ -1,6 +1,6 @@
 import {faker} from "@faker-js/faker";
 import {type Category, CategoryEnum} from "./category.utils";
-import prisma from "@/lib/prisma";
+import {prisma} from "@/lib/prisma";
 
 
 /**

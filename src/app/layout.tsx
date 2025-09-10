@@ -30,7 +30,7 @@ export default function RootLayout({children,}: Readonly<{
             <NuqsAdapter>
                 {children}
             </NuqsAdapter>
-            <Toaster/>
+            <Toaster position="top-right" richColors/>
             </body>
             </html>
         </ClerkProvider>

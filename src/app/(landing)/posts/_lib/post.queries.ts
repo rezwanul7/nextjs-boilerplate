@@ -4,7 +4,7 @@ import {paginate, PaginateResponse} from "@/lib/pagination-helper";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {Prisma} from "@prisma/client";
 
-export async function searchPosts(params: GetPostsSearchParamsDto): Promise<PaginateResponse<PostDto>> {
+export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<PaginateResponse<PostDto>> {
     const {
         title,
         authorId,

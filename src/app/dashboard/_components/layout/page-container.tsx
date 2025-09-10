@@ -7,8 +7,8 @@ export function PageContainer({children, className}: {
     className?: string,
 }) {
     return (
-        <main className={cn("flex flex-1 flex-col @container/main", className || "p-4 md:p-6")}>
+        <div className={cn("flex flex-1 flex-col", className || "p-4 md:p-6")}>
             {children}
-        </main>
+        </div>
     )
 }
