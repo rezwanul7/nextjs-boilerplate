@@ -1,19 +1,42 @@
-import {Badge} from "@/components/ui/badge";
-import {samplePosts} from "@/app/(landing)/_data/data";
-import { sleep } from "@/lib/sleep";
-import { cache } from "react";
+'use client';
+
+import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
+import {formatDate} from "@/lib/format";
+import useSWR from 'swr'
+import {PostItemShimmer} from "@/app/(landing)/posts/_components/post-item-shimmer";
+
 
 interface PostItemProps {
-    postId: number
+    selectedPostId: number
+    initialPost: PostDto
 }
 
-export const getSamplePost = cache(async (id: number) => {
-    return samplePosts[id - 1];
-});
+const fetcher = async (url: string) => {
+    const response = await fetch(url);
+    return await response.json() as PostDto;
+};
 
-export async function PostItem({postId}: PostItemProps) {
-    await sleep(3000);
-    const selectedPost = await getSamplePost(postId);
+export function PostItem({initialPost, selectedPostId}: PostItemProps) {
+    // 3. Fetch the post data on the client side (CSR) with SWR
+    const {data, error, isLoading} = useSWR(
+        `/api/posts/${selectedPostId}`,
+        fetcher,
+        {
+            fallbackData: initialPost,   // ✅ seeded from SSR
+            revalidateOnMount: false,     // don’t fetch again right after mount
+            // revalidateIfStale: false,     // don’t auto-fetch when switching back
+            // revalidateOnFocus: false,     // don’t refetch on window focus
+            dedupingInterval: 60_000,     // reuse same query result for 1 min
+        }
+    );
+
+    const post: PostDto = data;
+
+    // if(!post) return <p className="p-6">Post not found</p>;
+    if (isLoading) return <PostItemShimmer/>;
+    if (error) return <p className="p-6">Error loading post</p>;
+
+    console.log("PostItem : postId changed");
 
     return (
         <div className="lg:col-span-3">
@@ -25,13 +48,13 @@ export async function PostItem({postId}: PostItemProps) {
                     <div className="mb-4">
                         <div className="inline-flex items-center gap-2">
                             <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
-                                <span className="font-bold text-black text-sm">{selectedPost.initials}</span>
+                                <span className="font-bold text-black text-sm">{post.id}</span>
                             </div>
                         </div>
                     </div>
 
-                    <h1 className="text-2xl font-bold mb-2 text-balance">{selectedPost.title}</h1>
-                    <p className="text-blue-100 text-sm">{selectedPost.author}</p>
+                    <h1 className="text-2xl font-bold mb-2 text-balance">{post.title}</h1>
+                    <p className="text-blue-100 text-sm">{post.author?.firstName}</p>
                 </div>
             </div>
 
@@ -41,33 +64,33 @@ export async function PostItem({postId}: PostItemProps) {
                 <div className="flex items-center gap-6 mb-6 text-sm text-gray-600 dark:text-gray-400">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>{selectedPost.readTime}</span>
+                        {/*<span>{selectedPost.readTime}</span>*/}
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <span>{selectedPost.category}</span>
+                        <span>{post.category}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                        <span>Published {selectedPost.timeAgo}</span>
+                        <span>Updated At {formatDate(post.updatedAt)}</span>
                     </div>
                 </div>
 
                 {/* Tags Section */}
-                <div className="mb-6">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Technologies</h3>
-                    <div className="flex flex-wrap gap-2">
-                        {selectedPost.tags.map((tag, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                                {tag}
-                            </Badge>
-                        ))}
-                    </div>
-                </div>
+                {/*<div className="mb-6">*/}
+                {/*    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Technologies</h3>*/}
+                {/*    <div className="flex flex-wrap gap-2">*/}
+                {/*        {post.tags.map((tag, index) => (*/}
+                {/*            <Badge key={index} variant="outline" className="text-xs">*/}
+                {/*                {tag}*/}
+                {/*            </Badge>*/}
+                {/*        ))}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 {/* Article Content */}
                 <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300">
-                    <div className="whitespace-pre-wrap text-pretty leading-relaxed">{selectedPost.content}</div>
+                    <div className="whitespace-pre-wrap text-pretty leading-relaxed">{post.content}</div>
                 </div>
 
                 {/* Author Info Section */}
@@ -78,11 +101,11 @@ export async function PostItem({postId}: PostItemProps) {
                             <div
                                 className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
                         <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                          {selectedPost.initials}
+                          {post.id}
                         </span>
                             </div>
                             <div>
-                                <p className="font-medium text-gray-900 dark:text-white text-sm">{selectedPost.author}</p>
+                                <p className="font-medium text-gray-900 dark:text-white text-sm">{post.author?.firstName}</p>
                                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                                     Passionate about sharing knowledge and helping developers grow their skills.
                                 </p>

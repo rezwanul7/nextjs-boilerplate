@@ -77,6 +77,12 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
 
 }
 
+export async function getPostById(id: number): Promise<PostDto | null> {
+    return await prisma.post.findUnique({
+        where: {id},
+    }) as PostDto;
+}
+
 export async function getCategoryCountsMap(
     where?: Prisma.PostWhereInput
 ): Promise<Record<string, number>> {
