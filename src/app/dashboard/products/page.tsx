@@ -36,14 +36,14 @@ export default async function Page(props: pageProps) {
             />
 
             <div className="@container/main flex flex-1 flex-col gap-2">
-                <Suspense
-                    key={key}
-                    fallback={
-                        <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>
-                    }
-                >
+                {/*<Suspense*/}
+                {/*    key={key}*/}
+                {/*    fallback={*/}
+                {/*        <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2}/>*/}
+                {/*    }*/}
+                {/*>*/}
                     <ProductListingPage/>
-                </Suspense>
+                {/*</Suspense>*/}
             </div>
         </PageContainer>
     )

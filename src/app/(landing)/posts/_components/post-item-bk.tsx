@@ -1,4 +1,4 @@
-'use client';
+'use cache';
 
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
@@ -16,25 +16,25 @@ const fetcher = async (url: string) => {
     return await response.json() as PostDto;
 };
 
-export function PostItem({initialPost, selectedPostId}: PostItemProps) {
+export async function PostItem({initialPost, selectedPostId}: PostItemProps) {
     // 3. Fetch the post data on the client side (CSR) with SWR
-    const {data, error, isLoading} = useSWR(
-        `/api/posts/${selectedPostId}`,
-        fetcher,
-        {
-            fallbackData: initialPost,   // ✅ seeded from SSR
-            revalidateOnMount: false,     // don’t fetch again right after mount
-            // revalidateIfStale: false,     // don’t auto-fetch when switching back
-            // revalidateOnFocus: false,     // don’t refetch on window focus
-            dedupingInterval: 60_000,     // reuse same query result for 1 min
-        }
-    );
+    // const {data, error, isLoading} = useSWR(
+    //     `/api/posts/${selectedPostId}`,
+    //     fetcher,
+    //     {
+    //         fallbackData: initialPost,   // ✅ seeded from SSR
+    //         revalidateOnMount: false,     // don’t fetch again right after mount
+    //         // revalidateIfStale: false,     // don’t auto-fetch when switching back
+    //         // revalidateOnFocus: false,     // don’t refetch on window focus
+    //         dedupingInterval: 60_000,     // reuse same query result for 1 min
+    //     }
+    // );
 
-    const post: PostDto = data;
+    const post: PostDto = initialPost;
 
     // if(!post) return <p className="p-6">Post not found</p>;
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <p className="p-6">Error loading post</p>;
+    // if (isLoading) return <PostItemShimmer/>;
+    // if (error) return <p className="p-6">Error loading post</p>;
 
     console.log("PostItem : postId changed");
 

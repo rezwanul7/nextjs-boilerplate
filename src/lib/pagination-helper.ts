@@ -80,6 +80,8 @@ export async function paginate<
         model.count({ where }),
     ]);
 
+    console.log(options);
+
     return {
         items,
         total,

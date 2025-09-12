@@ -1,9 +1,12 @@
 import {prisma} from "@/lib/prisma";
 import {NextRequest, NextResponse} from "next/server";
+import {sleep} from "@/lib/sleep";
 
 export async function GET(
     _: NextRequest,
     {params}: { params: Promise<{ id: string }> },) {
+    await sleep(2000);
+
     const postId = Number((await params).id);
 
     console.log("api:post invoked with ID:", postId);

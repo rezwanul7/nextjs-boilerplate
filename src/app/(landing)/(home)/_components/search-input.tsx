@@ -10,8 +10,6 @@ export default function SearchInput() {
         defaultValue: "", // ensure controlled input
     });
 
-    console.log("Rendering SearchInput component ", searchQuery);
-
     return (
         <Input
             placeholder="Search articles, tutorials, guides, and more..."

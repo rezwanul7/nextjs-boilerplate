@@ -1,15 +1,16 @@
 "use client"
 
-import {ArrowUpDown} from "lucide-react"
+import {ArrowUpDown, LinkIcon} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {Badge} from "@/components/ui/badge"
 import Link from "next/link";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
-import {PostItem} from "@/app/(landing)/posts/_components/post-item";
 import {useState} from "react";
-import useSWR from "swr";
-import {sleep} from "@/lib/sleep";
+import Pagination from "@/app/(landing)/(home)/_components/pagination";
+import {parseAsInteger, useQueryState} from "nuqs";
+import {PostItem} from "@/app/(landing)/posts/_components/post-item";
+import {useSearchParams} from "next/navigation";
 
 interface PostsListsProps {
     posts: PostDto[],
@@ -19,13 +20,13 @@ interface PostsListsProps {
 }
 
 export default function PostsLists({posts, total, initialPostId, initialPost}: PostsListsProps) {
-    const [selectedPostId, setSelectedPostId] = useState(initialPostId);
+    const [selectedPostId, setSelectedPostId] = useQueryState("postId", parseAsInteger.withDefault(initialPostId));
+    const [pageSize] = useQueryState('perPage', parseAsInteger.withDefault(10));
+    const [page] = useQueryState('page', parseAsInteger.withDefault(1));
 
     const onClickPostListItem = (postId: number) => {
         setSelectedPostId(postId);
     }
-
-
 
 
     // const [selectedPostId, setSelectedPostId] = useQueryState("postId", {
@@ -88,16 +89,18 @@ export default function PostsLists({posts, total, initialPostId, initialPost}: P
                                 />
                             ))}
                         </div>
+
+                        {/* Pagination Controls */}
+                        <Pagination page={page} perPage={pageSize} total={total}/>
                     </div>
                     {/* Right Content Panel */}
                     {/* Suspense can make the SEO bad - it will initially display Loading... rather than actual post*/}
                     {/*<Suspense key={postId} fallback={<LoadingJobContent/>}>*/}
-                    <PostItem initialPost={initialPost} selectedPostId={selectedPostId}/>
+                    <PostItem initialPost={initialPost} selectedPostId={selectedPostId} />
                     {/*</Suspense>*/}
                 </div>
             </div>
         </div>
-
     )
 }
 
@@ -110,6 +113,8 @@ function PostListLinkItem2({
     selectedPostId: number,
     onClickPostListItem: (postId: number) => void,
 }) {
+
+
     return (
         <div
             className={`p-4 border-b border-gray-100 dark:border-gray-700 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${
@@ -136,6 +141,9 @@ function PostListLinkItem2({
                         <span className="text-xs text-gray-500 dark:text-gray-400">{formatDate(post.updatedAt)}</span>
                     </div>
                 </div>
+
+                {/* Permalink Icon */}
+                <PostPermalink postId={post.id} />
             </div>
         </div>
     )
@@ -153,6 +161,7 @@ function PostListLinkItem({
         <Link
             href={`/?postId=${post.id}`}
             scroll={false} // prevent full page jump
+            prefetch={false}
             className={`block p-4 border-b border-gray-100 dark:border-gray-700 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${
                 selectedPostId === post.id
                     ? "bg-blue-50 dark:bg-blue-900/20 border-l-4 border-l-blue-500"
@@ -190,3 +199,22 @@ function PostListLinkItem({
 }
 
 
+function PostPermalink({ postId }: { postId: string | number }) {
+    const searchParams = useSearchParams()
+    const params = new URLSearchParams(searchParams.toString())
+
+    // Add or overwrite postId param
+    params.set("postId", String(postId))
+
+    const href = `/?${params.toString()}`
+
+    return (
+        <Link
+            href={href}
+            onClick={(e) => e.stopPropagation()} // so card click doesn’t trigger
+            className="text-gray-400 hover:text-blue-500 transition-colors"
+        >
+            <LinkIcon size={14} />
+        </Link>
+    )
+}

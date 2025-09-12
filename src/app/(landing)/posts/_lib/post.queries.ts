@@ -48,7 +48,7 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
     // -------------------------
     // Build orderBy
     // -------------------------
-    let orderBy: any = {createdAt: "desc"}; // default
+    let orderBy: any = {};
     if (Array.isArray(sort) && sort.length > 0) {
         orderBy = sort.map((s: { id: string; desc: boolean }) => ({
             [s.id]: s.desc ? "desc" : "asc",

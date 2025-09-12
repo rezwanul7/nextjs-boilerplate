@@ -92,6 +92,9 @@ export const fakeProducts = {
     }) {
         await delay(1000);
         const categoriesArray = categories ? categories.split(',') : [];
+
+        console.log("getProducts: categoriesArray", categoriesArray);
+
         const allProducts = await this.getAll({
             categories: categoriesArray,
             search

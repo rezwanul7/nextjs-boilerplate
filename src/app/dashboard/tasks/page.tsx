@@ -4,7 +4,7 @@ import {Metadata} from "next"
 import {z} from "zod"
 
 import {columns} from "./components/columns"
-import {DataTable} from "../../../components/dt/data-table"
+import {DataTable} from "@/components/dt/data-table"
 import {taskSchema} from "./data/schema"
 
 export const metadata: Metadata = {

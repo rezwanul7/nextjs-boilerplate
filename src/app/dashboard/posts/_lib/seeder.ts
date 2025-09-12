@@ -7,8 +7,14 @@ import {prisma} from "@/lib/prisma";
  * Seed posts for a specific author.
  * @param authorId - The ID of the author to assign to posts
  * @param count - Number of posts to generate
+ * @param truncate
  */
-export async function seedPosts(authorId: string, count = 10) {
+export async function seedPosts(authorId: string, count = 10, truncate = false) {
+
+    if (truncate) {
+        await prisma.$executeRawUnsafe(`TRUNCATE TABLE "Post" RESTART IDENTITY CASCADE`)
+    }
+
     const categories = Object.values(CategoryEnum);
 
     const postsData = Array.from({length: count}).map(() => {
