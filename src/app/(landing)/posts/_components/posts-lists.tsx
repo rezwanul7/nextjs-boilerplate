@@ -11,6 +11,7 @@ import Pagination from "@/app/(landing)/(home)/_components/pagination";
 import {parseAsInteger, useQueryState} from "nuqs";
 import {PostItem} from "@/app/(landing)/posts/_components/post-item";
 import {useSearchParams} from "next/navigation";
+import PostPermalink from "@/app/(landing)/posts/_components/post-permalink";
 
 interface PostsListsProps {
     posts: PostDto[],
@@ -143,7 +144,7 @@ function PostListLinkItem2({
                 </div>
 
                 {/* Permalink Icon */}
-                <PostPermalink postId={post.id} />
+                <PostPermalink post={post} />
             </div>
         </div>
     )
@@ -196,25 +197,4 @@ function PostListLinkItem({
             </div>
         </Link>
     );
-}
-
-
-function PostPermalink({ postId }: { postId: string | number }) {
-    const searchParams = useSearchParams()
-    const params = new URLSearchParams(searchParams.toString())
-
-    // Add or overwrite postId param
-    params.set("postId", String(postId))
-
-    const href = `/?${params.toString()}`
-
-    return (
-        <Link
-            href={href}
-            onClick={(e) => e.stopPropagation()} // so card click doesn’t trigger
-            className="text-gray-400 hover:text-blue-500 transition-colors"
-        >
-            <LinkIcon size={14} />
-        </Link>
-    )
 }

@@ -25,14 +25,11 @@ export function HeroSection({total}: HeroSectionProps) {
             <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
                 <div className="mb-8">
                     <div
-                        className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                        className="inline-flex items-center gap-2 bg-white/10 rounded-full px-4 py-2 mb-6">
                         <BookOpen className="h-4 w-4 text-blue-200"/>
                         <span className="text-sm font-medium text-blue-100">Developer Knowledge Hub</span>
                     </div>
-                    <h1
-                        className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight text-white"
-                        style={{color: "#ffffff", textShadow: "0 2px 4px rgba(0,0,0,0.3)"}}
-                    >
+                    <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight text-white">
                         Discover Amazing
                         <span
                             className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">

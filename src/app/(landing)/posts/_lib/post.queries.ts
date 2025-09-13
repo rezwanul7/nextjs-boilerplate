@@ -65,6 +65,7 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
             title: true,
             published: true,
             category: true,
+            slug: true,
             createdAt: true,
             author: {
                 select: {
@@ -80,6 +81,13 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
 export async function getPostById(id: number): Promise<PostDto | null> {
     return await prisma.post.findUnique({
         where: {id},
+    }) as PostDto;
+}
+
+
+export async function getPostBySlug(slug: string): Promise<PostDto | null> {
+    return await prisma.post.findUnique({
+        where: {slug},
     }) as PostDto;
 }
 
