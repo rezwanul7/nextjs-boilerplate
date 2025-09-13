@@ -8,11 +8,12 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { IconEdit, IconDotsVertical, IconTrash } from '@tabler/icons-react';
+import {IconEdit, IconDotsVertical, IconTrash, IconEye} from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
+import Link from "next/link";
 
 interface CellActionProps {
     data: PostDto;
@@ -43,11 +44,19 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
                 <DropdownMenuContent align='end'>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
+                    <DropdownMenuItem asChild>
+                        <Link href={`/posts/${data.slug}`} className="cursor-pointer">
+                            <IconEye className="mr-2 h-4 w-4" />
+                            View
+                        </Link>
+                    </DropdownMenuItem>
+
                     <DropdownMenuItem
                         onClick={() => router.push(`/dashboard/posts/${data.id}/edit`)}
                     >
                         <IconEdit className='mr-2 h-4 w-4' /> Update
                     </DropdownMenuItem>
+
                     <DropdownMenuItem onClick={() => setOpen(true)}>
                         <IconTrash className='mr-2 h-4 w-4' /> Delete
                     </DropdownMenuItem>

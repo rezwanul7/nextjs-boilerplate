@@ -7,6 +7,7 @@ import BlogPageHeader from "@/app/(landing)/posts/[slug]/_components/blog-page-h
 import BlogPageHero from "@/app/(landing)/posts/[slug]/_components/blog-page-hero";
 import BlogPageLikeButton from "@/app/(landing)/posts/[slug]/_components/blog-page-like-button";
 import {getPostBySlug} from "@/app/(landing)/posts/_lib/post.queries";
+import {Metadata} from "next";
 
 // Sample blog post data
 const blogPost = {
@@ -216,6 +217,55 @@ Whether you're building a simple blog or a complex enterprise application, Next.
     ],
 }
 
+export async function generateMetadata(props: {
+    params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+    const params = await props.params;
+    const slug = params.slug;
+
+    const blog = await getPostBySlug(slug);
+    if (!blog) {
+        return {title: "Blog not found"};
+    }
+
+    const title = blog.title || "Blog Post";
+    const description = blog.content?.slice(0, 150) || "Read this amazing blog post.";
+    const image = blog.meta?.image || "/placeholder.png";
+    
+    const url = `/blog/${params.slug}`;
+
+    return {
+        title: title,
+        description: description,
+
+        alternates: {
+            canonical: url,
+        },
+
+        openGraph: {
+            type: "article",
+            url,
+            title: title,
+            description: description,
+            images: [
+                {
+                    url: image,
+                    width: 1200,
+                    height: 630,
+                    alt: title,
+                },
+            ],
+        },
+
+        twitter: {
+            card: "summary_large_image",
+            title: title,
+            description: description,
+            images: [image],
+        },
+    };
+}
+
 export default async function Page(props: {
     params: Promise<{ slug: string }>
 }) {
@@ -228,7 +278,8 @@ export default async function Page(props: {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div
+            className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             <BlogPageHeader/>
             <BlogPageHero
                 likes={blogPost.likes}
@@ -247,7 +298,7 @@ export default async function Page(props: {
                     <div
                         className="prose prose-xl max-w-none prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-strong:text-slate-900 dark:prose-strong:text-slate-100 prose-code:text-blue-600 dark:prose-code:text-blue-400 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-800 prose-pre:text-slate-900 dark:prose-pre:text-slate-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-blockquote:border-blue-200 dark:prose-blockquote:border-blue-800">
                         <div className="whitespace-pre-wrap text-pretty leading-relaxed">
-                            {blogPost.content}
+                            {post.content}
                         </div>
                     </div>
 

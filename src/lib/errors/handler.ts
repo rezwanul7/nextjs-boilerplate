@@ -8,6 +8,8 @@ export function handleServerActionError(error: unknown): {
     message?: string;
     errors?: Record<string, string[]>;
 } {
+    console.error(error);
+
     // Zod runtime errors
     if (error instanceof ZodError) {
         const validationError = ValidationError.fromZod(error);
@@ -29,6 +31,5 @@ export function handleServerActionError(error: unknown): {
     }
 
     // Unexpected / unknown errors
-    console.error(error);
     return {success: false, message: "Something went wrong"};
 }

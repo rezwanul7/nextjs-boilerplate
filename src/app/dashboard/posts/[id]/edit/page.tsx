@@ -5,6 +5,11 @@ import {PageContainer} from "@/app/dashboard/_components/layout/page-container";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 import UpdatePostForm from "@/app/dashboard/posts/_components/update-post-form";
 import {postService} from "@/app/dashboard/posts/_lib/post.service";
+import {Tabs, TabsContent, TabsList, TabsTrigger,} from "@/components/ui/tabs"
+import UpdatePostContentForm from "@/app/dashboard/posts/_components/update-post-content-form";
+import UpdatePostSeoForm from "@/app/dashboard/posts/_components/update-post-seo-form";
+import {Button} from "@/components/ui/button";
+import Link from "next/link";
 
 export default async function Page(props: {
     params: Promise<{ id: string }>
@@ -43,17 +48,53 @@ export default async function Page(props: {
     return (
         <PageContainer>
             <PageHeader
-                title="Create New Post"
+                title="Update Post"
+                actions={
+                    <Button asChild>
+                        <Link href={`/posts/${postDto.slug}`} target="_blank">View Post</Link>
+                    </Button>
+                }
             />
-            <Card>
-                <CardHeader>
-                    <CardTitle>Post Information</CardTitle>
-                    <CardDescription>Please fill out your details below</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <UpdatePostForm post={postDto}/>
-                </CardContent>
-            </Card>
+            <Tabs defaultValue="general">
+                <TabsList>
+                    <TabsTrigger value="general">General</TabsTrigger>
+                    <TabsTrigger value="content">Content</TabsTrigger>
+                    <TabsTrigger value="seo">SEO</TabsTrigger>
+                </TabsList>
+                <TabsContent value="general">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>General Information</CardTitle>
+                            <CardDescription>Please fill out your details below</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <UpdatePostForm post={postDto}/>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="content">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Post Content</CardTitle>
+                            <CardDescription>Please fill out your details below</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <UpdatePostContentForm post={postDto}/>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+                <TabsContent value="seo">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>SEO</CardTitle>
+                            <CardDescription>Please fill out your details below</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <UpdatePostSeoForm post={postDto}/>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
         </PageContainer>
     )
 }

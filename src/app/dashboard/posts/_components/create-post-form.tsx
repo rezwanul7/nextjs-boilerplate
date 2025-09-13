@@ -15,19 +15,18 @@ import {ComboboxFormField} from "@/components/form/combobox-form-field";
 import {RichTextEditorInput} from "@/components/form/rich-text-editor-input";
 import {mapValidationErrorsToRHF} from "@/lib/form/mapValidationErrorsToRHF";
 import React from "react";
+import {objectToFormData} from "@/lib/form/formData.utils";
+import {useRouter} from "next/navigation";
 
 export default function CreatePostForm() {
+    const router = useRouter();
     const form = useForm<CreatePostDto>({
         resolver: zodResolver(CreatePostSchema),
         defaultValues: {
             title: "",
-            content: "",
+            content: undefined,
             category: undefined, // must be selected by user
             slug: "",
-            meta: {
-                description: "",
-                image: "",
-            },
             // published: false,
         },
     });
@@ -37,19 +36,13 @@ export default function CreatePostForm() {
     const onSubmit = async (data: CreatePostDto) => {
         console.log("Form submitted:", data);
 
-        const formData = new FormData();
-        Object.entries(data).forEach(([key, value]) => {
-            if (key === "meta") {
-                formData.set(key, JSON.stringify(value));
-            } else {
-                formData.set(key, value as any);
-            }
-        });
+        const formData = objectToFormData(data);
 
         const result: ServerActionResult<PostDto> = await createPost(formData);
 
         if (result.success) {
-            toast.success(result.data.meta?.description);
+            toast.success(result.message);
+            router.push(`/dashboard/posts/${result.data?.id}/edit`);
         } else {
 
             // If there are server-side validation errors, map them to the form
@@ -98,21 +91,21 @@ export default function CreatePostForm() {
                     label="Content"
                     control={form.control}
                 />
-                {/* Meta Description */}
-                <InputFormField
-                    control={form.control}
-                    name="meta.description"
-                    label="Meta Description"
-                    placeholder="Meta description"
-                />
+                {/*/!* Meta Description *!/*/}
+                {/*<InputFormField*/}
+                {/*    control={form.control}*/}
+                {/*    name="meta.description"*/}
+                {/*    label="Meta Description"*/}
+                {/*    placeholder="Meta description"*/}
+                {/*/>*/}
 
-                {/* Meta Image */}
-                <InputFormField
-                    control={form.control}
-                    name="meta.image"
-                    label="Meta Image URL"
-                    placeholder="Meta image URL"
-                />
+                {/*/!* Meta Image *!/*/}
+                {/*<InputFormField*/}
+                {/*    control={form.control}*/}
+                {/*    name="meta.image"*/}
+                {/*    label="Meta Image URL"*/}
+                {/*    placeholder="Meta image URL"*/}
+                {/*/>*/}
 
                 <FormFooter>
                     <Button type="submit"> Create Post</Button>

@@ -30,11 +30,11 @@ model User {
 }
 
 model Post {
-  id       Int     @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   title    String
-  content  String?
+  content  Json?
   category String
-  slug     String  @unique
+  slug     String @unique
   meta     Json?
 
   published Boolean @default(false)

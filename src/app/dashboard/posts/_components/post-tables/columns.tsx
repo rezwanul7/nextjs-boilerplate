@@ -9,6 +9,7 @@ import * as React from "react";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
 import {formatDate} from "@/lib/format";
+import Link from "next/link";
 
 export const columns: ColumnDef<PostDto>[] = [
     {
@@ -44,9 +45,15 @@ export const columns: ColumnDef<PostDto>[] = [
         ),
         cell: ({cell}) => {
             const title = cell.getValue<PostDto['title']>();
-            return <div className="max-w-xs truncate" title={title}>
-                {title}
-            </div>
+            const id = cell.row.original.id;
+
+            return (
+                <Link href={`/dashboard/posts/${id}/edit`}>
+                    <div className="max-w-xs truncate" title={title}>
+                        {title}
+                    </div>
+                </Link>
+            )
         },
         meta: {
             label: 'Title',
@@ -127,7 +134,7 @@ export const columns: ColumnDef<PostDto>[] = [
             variant: "text",
             icon: Text,
         },
-        enableColumnFilter: true,
+        enableColumnFilter: false,
     },
     {
         id: "createdAt",

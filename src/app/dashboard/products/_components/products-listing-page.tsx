@@ -16,7 +16,7 @@ export default async function ProductListingPage({}: ProductListingPage) {
     const totalProducts = data.total;
     const products: Product[] = data.data;
 
-    const gridView = true;
+    const gridView = false;
 
     if (gridView) {
         // If you want to use the DataGrid component instead of DataTable, uncomment the following lines:

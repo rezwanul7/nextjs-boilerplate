@@ -65,6 +65,7 @@ export async function searchPosts(params: GetPostsSearchParamsDto): Promise<Pagi
             title: true,
             published: true,
             category: true,
+            slug: true,
             createdAt: true,
             author: {
                 select: {

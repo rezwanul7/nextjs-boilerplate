@@ -4,33 +4,36 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
 import {PostDto, UpdatePostDto, UpdatePostSchema} from "@/app/dashboard/posts/_lib/post.dto";
-import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
 import {updatePost} from "@/app/dashboard/posts/_lib/post.actions";
 import {ServerActionResult} from "@/types/server-action";
 import {toast} from "sonner";
 import {Form,} from "@/components/ui/form";
 import InputFormField from "@/components/form/input-form-field";
 import {FormFooter} from "@/components/form/form-footer";
-import {ComboboxFormField} from "@/components/form/combobox-form-field";
-import {Metadata} from "next";
+import TextareaFormField from "@/components/form/textarea-form-field";
 import {objectToFormData} from "@/lib/form/formData.utils";
+import {getTextFromJSONContent} from "@/lib/tiptap.utils";
 
-export const metadata: Metadata = {
-    title: "Edit Post",
-};
-
-interface UpdatePostFormProps {
+interface UpdatePostSeoFormProps {
     post: PostDto
 }
 
-export default function UpdatePostForm({post}: UpdatePostFormProps) {
+export default function UpdatePostSeoForm({post}: UpdatePostSeoFormProps) {
+    const postContent = post.content ? getTextFromJSONContent(post.content) : undefined;
+
+    const title = post.meta?.title || post.title;
+    const description = post.meta?.description || postContent || "";
+    const keywords = post.meta?.keywords || "";
+
+
     const form = useForm<UpdatePostDto>({
         resolver: zodResolver(UpdatePostSchema),
         defaultValues: {
-            title: post.title,
-            content: post.content ?? undefined,
-            category: post.category,
-            slug: post.slug,
+            meta: {
+                title: title.slice(0, 60),
+                description: description.slice(0, 150),
+                keywords: keywords,
+            },
         },
     });
 
@@ -52,32 +55,33 @@ export default function UpdatePostForm({post}: UpdatePostFormProps) {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-                {/* Title */}
+                {/* Meta Title */}
                 <InputFormField
                     control={form.control}
-                    name="title"
-                    label="Title"
-                    placeholder="Enter post title"
-                />
-                {/* Slug */}
-                <InputFormField
-                    control={form.control}
-                    name="slug"
-                    label="Slug"
-                    placeholder="Enter post slug"
+                    name="meta.title"
+                    label="Meta Title"
+                    placeholder="Write your meta title"
                 />
 
-                {/* Category */}
-                <ComboboxFormField
+                {/* Meta Keywords */}
+                <InputFormField
                     control={form.control}
-                    name="category"
-                    label="Category"
-                    placeholder="Select category"
-                    values={CategoryUtils.getSelectOptions()}
+                    name="meta.keywords"
+                    label="Meta Keywords"
+                    placeholder="Enter keywords separated by commas"
+                />
+
+                {/* Meta Description */}
+                <TextareaFormField
+                    control={form.control}
+                    name="meta.description"
+                    label="Meta Description"
+                    placeholder="Write your meta description"
+                    rows={3}
                 />
 
                 <FormFooter>
-                    <Button type="submit">Update</Button>
+                    <Button type="submit">Update Post</Button>
                 </FormFooter>
             </form>
         </Form>

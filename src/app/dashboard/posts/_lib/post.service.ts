@@ -11,21 +11,7 @@ export class PostService {
         }) as PostDto | null;
     }
 
-    //
-// if (error instanceof Prisma.PrismaClientKnownRequestError) {
-//     if (
-//         error.code === "P2002" &&
-//         error.meta &&
-//         Array.isArray((error.meta as any).target) &&
-//         (error.meta as any).target.includes("slug")
-//     ) {
-//         // Slug already exists
-//         return {success: false, message: "Slug already exists, choose another one."};
-//     }
-// }
     async createPost(authorId: string, data: CreatePostDto): Promise<PostDto> {
-        // Parse meta to ensure runtime safety
-        const meta: PostMetaDto | undefined = PostMetaSchema.parse(data.meta ?? {});
 
         try {
             // Persist to database
@@ -35,7 +21,6 @@ export class PostService {
                     content: data.content,
                     category: data.category,
                     slug: data.slug,
-                    meta, // safely parsed
                     // published: data.published,
                     authorId,
                 },
@@ -61,6 +46,8 @@ export class PostService {
         if (existing.authorId !== authorId) throw new ForbiddenError();
 
         const mergedMeta = mergePostMeta(existing.meta as PostMetaDto | undefined, data.meta);
+
+        console.log("data.content", data.content);
 
         try {
             return await prisma.post.update({
@@ -103,6 +90,19 @@ export class PostService {
             },
         }) as PostDto;
     }
+
+    //
+// if (error instanceof Prisma.PrismaClientKnownRequestError) {
+//     if (
+//         error.code === "P2002" &&
+//         error.meta &&
+//         Array.isArray((error.meta as any).target) &&
+//         (error.meta as any).target.includes("slug")
+//     ) {
+//         // Slug already exists
+//         return {success: false, message: "Slug already exists, choose another one."};
+//     }
+// }
 }
 
 export const postService = new PostService();

@@ -1,22 +1,26 @@
 import {z} from "zod";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
 import {UserSchema} from "@/app/dashboard/users/_lib/user.dto";
+import {JSONContent} from "@tiptap/react";
 
 // --- Reusable Meta Schema ---
 export const PostMetaSchema = z
     .object({
+        title: z.string()
+            .min(3, "Title must be at least 3 characters")
+            .max(60, "Title must be at most 60 characters"),
         description: z.string()
             .min(3, "Description must be at least 3 characters")
-            .max(160, "Description must be at most 160 characters"),
-        image: z.string().optional(),
+            .max(150, "Description must be at most 160 characters"),
+        keywords: z.string().optional(),
     })
     .optional();
 
 export const PostSchema = z.object({
     id: z.number(),
     title: z.string(),
-    content: z.string().nullable(),
-    category: z.string(),
+    content: z.custom<JSONContent>().nullable(),
+    category: CategoryUtils.zodSchema,
     slug: z.string(),
     published: z.boolean(),
     authorId: z.string(),
@@ -33,11 +37,9 @@ export const PostWithUserSchema = PostSchema.extend({
 // Create DTO
 export const CreatePostSchema = z.object({
     title: z.string()
-        .min(3, "Title must be at least 3 characters")
-        .includes("Post", {message: "Title must include the word 'Post'"}),
+        .min(3, "Title must be at least 3 characters"),
 
-    content: z.string()
-        .min(3, "Content must be at least 3 characters"),
+    content: z.custom<JSONContent>(),
     category: CategoryUtils.zodSchema,
     slug: z.string().min(3, "Slug must be at least 3 characters"),
     meta: PostMetaSchema,

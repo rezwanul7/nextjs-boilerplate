@@ -4,33 +4,23 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
 import {PostDto, UpdatePostDto, UpdatePostSchema} from "@/app/dashboard/posts/_lib/post.dto";
-import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
 import {updatePost} from "@/app/dashboard/posts/_lib/post.actions";
 import {ServerActionResult} from "@/types/server-action";
 import {toast} from "sonner";
 import {Form,} from "@/components/ui/form";
-import InputFormField from "@/components/form/input-form-field";
 import {FormFooter} from "@/components/form/form-footer";
-import {ComboboxFormField} from "@/components/form/combobox-form-field";
-import {Metadata} from "next";
+import {RichTextEditorInput} from "@/components/form/rich-text-editor-input";
 import {objectToFormData} from "@/lib/form/formData.utils";
 
-export const metadata: Metadata = {
-    title: "Edit Post",
-};
-
-interface UpdatePostFormProps {
+interface UpdatePostContentFormProps {
     post: PostDto
 }
 
-export default function UpdatePostForm({post}: UpdatePostFormProps) {
+export default function UpdatePostContentForm({post}: UpdatePostContentFormProps) {
     const form = useForm<UpdatePostDto>({
         resolver: zodResolver(UpdatePostSchema),
         defaultValues: {
-            title: post.title,
             content: post.content ?? undefined,
-            category: post.category,
-            slug: post.slug,
         },
     });
 
@@ -51,33 +41,15 @@ export default function UpdatePostForm({post}: UpdatePostFormProps) {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
-                {/* Title */}
-                <InputFormField
+                {/* Content */}
+                <RichTextEditorInput
+                    name="content"
+                    label="Content"
                     control={form.control}
-                    name="title"
-                    label="Title"
-                    placeholder="Enter post title"
-                />
-                {/* Slug */}
-                <InputFormField
-                    control={form.control}
-                    name="slug"
-                    label="Slug"
-                    placeholder="Enter post slug"
-                />
-
-                {/* Category */}
-                <ComboboxFormField
-                    control={form.control}
-                    name="category"
-                    label="Category"
-                    placeholder="Select category"
-                    values={CategoryUtils.getSelectOptions()}
                 />
 
                 <FormFooter>
-                    <Button type="submit">Update</Button>
+                    <Button type="submit">Update Post</Button>
                 </FormFooter>
             </form>
         </Form>
