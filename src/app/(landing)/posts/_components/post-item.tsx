@@ -4,6 +4,7 @@ import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
 import useSWR from 'swr'
 import {PostItemShimmer} from "@/app/(landing)/posts/_components/post-item-shimmer";
+import {getHTMLFromJSONContent} from "@/lib/tiptap.utils";
 
 
 interface PostItemProps {
@@ -31,6 +32,7 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
     );
 
     const post: PostDto = data;
+    const postHtml = post.content ? getHTMLFromJSONContent(post.content) : "";
 
     // if(!post) return <p className="p-6">Post not found</p>;
     if (isLoading) return <div>Loading...</div>;
@@ -90,7 +92,11 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
 
                 {/* Article Content */}
                 <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300">
-                    <div className="whitespace-pre-wrap text-pretty leading-relaxed">{post.content}</div>
+                    <div className="whitespace-pre-wrap text-pretty leading-relaxed">
+                        <div className="prose prose-slate dark:prose-invert max-w-none">
+                            <div dangerouslySetInnerHTML={{ __html: postHtml }} />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Author Info Section */}

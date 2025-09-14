@@ -4,7 +4,8 @@ import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
 import {HeroSection} from "@/app/(landing)/(home)/_components/hero-section";
 import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.queries";
 import PostsLists from "@/app/(landing)/posts/_components/posts-lists";
-import {PostItem} from "@/app/(landing)/posts/_components/post-item";
+import {CategoriesSection} from "@/app/(landing)/(home)/_components/categories-section";
+import {AboutPage} from "@/app/(landing)/(home)/_components/about-section";
 
 export const metadata: Metadata = {
     title: 'HomePage'
@@ -19,7 +20,7 @@ export default async function Page(props: pageProps) {
 
     let postId = Number(searchParams.postId);
 
-    if(postId){
+    if (postId) {
         // redirect to /posts/[postId]
         console.log("page.tsx: postId from searchParams", postId);
     }
@@ -41,14 +42,20 @@ export default async function Page(props: pageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+        <div
+            className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             <HeroSection total={total}/>
-            <PostsLists
-                posts={items}
-                total={total}
-                initialPostId={postId}
-                initialPost={post}
-            />
+            {/*<SearchSection/>*/}
+
+                <PostsLists
+                    posts={items}
+                    total={total}
+                    initialPostId={postId}
+                    initialPost={post}
+                />
+
+            <CategoriesSection/>
+            <AboutPage/>
         </div>
     )
 }

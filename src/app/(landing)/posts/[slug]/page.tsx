@@ -8,6 +8,7 @@ import BlogPageHero from "@/app/(landing)/posts/[slug]/_components/blog-page-her
 import BlogPageLikeButton from "@/app/(landing)/posts/[slug]/_components/blog-page-like-button";
 import {getPostBySlug} from "@/app/(landing)/posts/_lib/post.queries";
 import {Metadata} from "next";
+import {getHTMLFromJSONContent, getTextFromJSONContent} from "@/lib/tiptap.utils";
 
 // Sample blog post data
 const blogPost = {
@@ -229,9 +230,9 @@ export async function generateMetadata(props: {
     }
 
     const title = blog.title || "Blog Post";
-    const description = blog.content?.slice(0, 150) || "Read this amazing blog post.";
+    const description = blog.content ? getTextFromJSONContent(blog.content).slice(0, 150) : "Read this amazing blog post.";
     const image = blog.meta?.image || "/placeholder.png";
-    
+
     const url = `/blog/${params.slug}`;
 
     return {
@@ -277,6 +278,8 @@ export default async function Page(props: {
         throw new Error("Post not found");
     }
 
+    const postHtml = post.content ? getHTMLFromJSONContent(post.content) : "";
+
     return (
         <div
             className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -298,7 +301,9 @@ export default async function Page(props: {
                     <div
                         className="prose prose-xl max-w-none prose-headings:text-slate-900 dark:prose-headings:text-slate-100 prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-strong:text-slate-900 dark:prose-strong:text-slate-100 prose-code:text-blue-600 dark:prose-code:text-blue-400 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-800 prose-pre:text-slate-900 dark:prose-pre:text-slate-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-blockquote:border-blue-200 dark:prose-blockquote:border-blue-800">
                         <div className="whitespace-pre-wrap text-pretty leading-relaxed">
-                            {post.content}
+                            <div className="prose prose-slate dark:prose-invert max-w-none">
+                                <div dangerouslySetInnerHTML={{ __html: postHtml }} />
+                            </div>
                         </div>
                     </div>
 

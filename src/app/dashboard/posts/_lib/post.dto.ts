@@ -13,6 +13,7 @@ export const PostMetaSchema = z
             .min(3, "Description must be at least 3 characters")
             .max(150, "Description must be at most 160 characters"),
         keywords: z.string().optional(),
+        image: z.url().optional(),
     })
     .optional();
 

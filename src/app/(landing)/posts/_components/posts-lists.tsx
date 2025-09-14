@@ -1,17 +1,16 @@
 "use client"
 
-import {ArrowUpDown, LinkIcon} from "lucide-react"
+import {ArrowUpDown} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {Badge} from "@/components/ui/badge"
 import Link from "next/link";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
-import {useState} from "react";
 import Pagination from "@/app/(landing)/(home)/_components/pagination";
 import {parseAsInteger, useQueryState} from "nuqs";
 import {PostItem} from "@/app/(landing)/posts/_components/post-item";
-import {useSearchParams} from "next/navigation";
 import PostPermalink from "@/app/(landing)/posts/_components/post-permalink";
+import {Input} from "@/components/ui/input";
 
 interface PostsListsProps {
     posts: PostDto[],
@@ -44,36 +43,35 @@ export default function PostsLists({posts, total, initialPostId, initialPost}: P
     // )
 
     return (
-        <div className="max-w-7xl mx-auto px-6 py-8">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+        <div className="max-w-7xl px-6">
+            <div className="rounded-2xl shadow-xl overflow-hidden">
                 <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
                     {/* Left Sidebar - PostDto List */}
                     <div className="lg:col-span-2 border-r border-gray-200 dark:border-gray-700">
                         {/* Header with filters */}
                         <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
-                            <div className="flex items-center justify-between mb-3">
-                                <span className="text-sm font-medium text-gray-900 dark:text-white">
+                            <div className="flex items-center gap-4">
+                                {/* Results count */}
+                                <span className="text-sm font-medium text-gray-900 dark:text-white shrink-0">
                                     {posts.length} results
                                 </span>
+
+                                {/* Search Bar - takes remaining space */}
+                                <div className="relative flex-1">
+                                    <Input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="pl-9 h-9 text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
+                                    />
+                                </div>
+
                                 <div className="flex items-center gap-2">
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="h-8 px-3 text-xs bg-gray-800 text-white border-gray-700 hover:bg-gray-700"
+                                        className="h-8 px-3 text-xs bg-gray-800 text-white hover:text-white border-gray-700 hover:bg-gray-700"
                                     >
-                                        <ArrowUpDown className="h-3 w-3 mr-1"/>
-                                        RELEVANT
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="sm"
-                                        className="h-8 px-3 text-xs text-gray-600 border-gray-300 hover:bg-gray-100 bg-transparent"
-                                    >
-                                        RECENT
-                                    </Button>
-                                    <Button variant="default" size="sm"
-                                            className="h-8 px-3 text-xs bg-blue-600 hover:bg-blue-700">
-                                        APPLY
+                                        <ArrowUpDown className="h-3 w-3"/>
                                     </Button>
                                 </div>
                             </div>
@@ -97,7 +95,7 @@ export default function PostsLists({posts, total, initialPostId, initialPost}: P
                     {/* Right Content Panel */}
                     {/* Suspense can make the SEO bad - it will initially display Loading... rather than actual post*/}
                     {/*<Suspense key={postId} fallback={<LoadingJobContent/>}>*/}
-                    <PostItem initialPost={initialPost} selectedPostId={selectedPostId} />
+                    <PostItem initialPost={initialPost} selectedPostId={selectedPostId}/>
                     {/*</Suspense>*/}
                 </div>
             </div>
@@ -144,7 +142,7 @@ function PostListLinkItem2({
                 </div>
 
                 {/* Permalink Icon */}
-                <PostPermalink post={post} />
+                <PostPermalink post={post}/>
             </div>
         </div>
     )
