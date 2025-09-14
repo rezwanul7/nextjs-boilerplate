@@ -2,9 +2,9 @@ import { BookOpen, Users, Target, Award, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-export function AboutPage() {
+export function AboutSection() {
     return (
-        <div>
+        <div id="about">
             {/* Hero Section */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
                 <div className="max-w-4xl mx-auto px-6 text-center">
@@ -103,7 +103,7 @@ export function AboutPage() {
                         growing community.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/search">
+                        <Link href="#">
                             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 font-semibold">
                                 Explore Articles
                                 <ArrowRight className="ml-2 h-4 w-4" />

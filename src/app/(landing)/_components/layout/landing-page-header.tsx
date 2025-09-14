@@ -5,44 +5,55 @@ import {Button} from "@/components/ui/button"
 import {useState} from "react";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
 import Link from "next/link";
+import {scrollToSection} from "@/lib/scroll";
 
-export default function Header2() {
+export default function LandingPageHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
     return (
         <nav
             className="sticky top-0 z-50 border-b border-white/20 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-gray-900/80 shadow-sm">
             <div className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
-                <div className="flex items-center space-x-3">
+                <Link href="/" className="flex items-center space-x-3">
                     <div
                         className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
                         <BookOpen className="h-5 w-5 text-white"/>
                     </div>
                     <div>
-                        <span className="font-bold text-xl text-gray-900 dark:text-white">DevBlog</span>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">Knowledge Hub</p>
+                        <span className="font-bold text-xl text-gray-900 dark:text-white">
+                            DevBlog
+                        </span>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">
+                            Knowledge Hub
+                        </p>
                     </div>
-                </div>
+                </Link>
 
                 <div className="hidden md:flex items-center space-x-6">
+                    <Link href="/">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                        >
+                            Home
+                        </Button>
+                    </Link>
+
                     <Button
                         variant="ghost"
                         size="sm"
                         className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                    >
-                        Home
-                    </Button>
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                        onClick={() => scrollToSection("categories")}
                     >
                         Categories
                     </Button>
+
                     <Button
                         variant="ghost"
                         size="sm"
                         className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                        onClick={() => scrollToSection("about")}
                     >
                         About
                     </Button>
@@ -86,21 +97,27 @@ export default function Header2() {
                 <div
                     className="md:hidden border-t border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-gray-900/95 backdrop-blur">
                     <div className="px-6 py-4 space-y-3">
+                        <Link href="/">
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                            >
+                                Home
+                            </Button>
+                        </Link>
+
                         <Button
                             variant="ghost"
                             className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                        >
-                            Home
-                        </Button>
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                            onClick={() => scrollToSection("categories")}
                         >
                             Categories
                         </Button>
+
                         <Button
                             variant="ghost"
                             className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                            onClick={() => scrollToSection("about")}
                         >
                             About
                         </Button>

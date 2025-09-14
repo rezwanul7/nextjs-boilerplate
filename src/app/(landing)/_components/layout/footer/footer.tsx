@@ -2,6 +2,7 @@ import {BookOpen} from "lucide-react";
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import Link from "next/link"
+import {siteData} from "@/constants/site";
 
 export function Footer() {
     return (
@@ -79,14 +80,14 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/search"
+                                <Link href="#"
                                       className="text-gray-300 hover:text-white transition-colors text-sm">
                                     Search Articles
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href="/blog/building-modern-web-applications-nextjs-15"
+                                    href="#"
                                     className="text-gray-300 hover:text-white transition-colors text-sm"
                                 >
                                     Latest Posts
@@ -186,9 +187,18 @@ export function Footer() {
                             </div>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-300">
-                            <span>Made with</span>
-                            <span className="text-red-500">♥</span>
-                            <span>for developers</span>
+                            <a
+                                href={siteData.portfolioUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-400 hover:underline"
+                            >
+                                <span>Made with</span>{" "}
+                                <span className="text-red-500">♥</span>{" "}
+                                <span>by</span>{" "}
+
+                                {siteData.authorName}
+                            </a>
                         </div>
                     </div>
                 </div>

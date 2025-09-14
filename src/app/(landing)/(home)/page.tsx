@@ -5,7 +5,7 @@ import {HeroSection} from "@/app/(landing)/(home)/_components/hero-section";
 import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.queries";
 import PostsList from "@/app/(landing)/posts/_components/posts-list";
 import {CategoriesSection} from "@/app/(landing)/(home)/_components/categories-section";
-import {AboutPage} from "@/app/(landing)/(home)/_components/about-section";
+import {AboutSection} from "@/app/(landing)/(home)/_components/about-section";
 
 export const metadata: Metadata = {
     title: 'HomePage'
@@ -52,7 +52,7 @@ export default async function Page(props: pageProps) {
             />
 
             <CategoriesSection/>
-            <AboutPage/>
+            <AboutSection/>
         </div>
     )
 }

@@ -436,7 +436,7 @@ export default async function Page(props: {
                     </div>
 
                     <div className="text-center mt-12">
-                        <Link href="/search">
+                        <Link href="#">
                             <Button
                                 size="lg"
                                 className="gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white"

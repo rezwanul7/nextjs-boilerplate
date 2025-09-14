@@ -64,7 +64,7 @@ const categories = [
 
 export function CategoriesSection() {
     return (
-        <div>
+        <div id="categories">
             {/* Hero Section */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
                 <div className="max-w-4xl mx-auto px-6 text-center">
@@ -109,7 +109,7 @@ export function CategoriesSection() {
                                     ))}
                                 </div>
 
-                                <Link href="/search">
+                                <Link href="#">
                                     <Button
                                         className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold">
                                         Browse Articles

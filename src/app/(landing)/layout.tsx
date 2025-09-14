@@ -1,11 +1,11 @@
-import Header2 from "@/app/(landing)/_components/layout/header2";
+import LandingPageHeader from "@/app/(landing)/_components/layout/landing-page-header";
 import {Footer} from "@/app/(landing)/_components/layout/footer/footer";
 
 export default function Layout({children}: { children: React.ReactNode }) {
     return (
         <>
             {/*<Header/>*/}
-            <Header2/>
+            <LandingPageHeader/>
             {children}
             <Footer/>
         </>
