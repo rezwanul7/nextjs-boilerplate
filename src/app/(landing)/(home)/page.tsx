@@ -3,7 +3,7 @@ import {SearchParams} from "nuqs/server";
 import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
 import {HeroSection} from "@/app/(landing)/(home)/_components/hero-section";
 import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.queries";
-import PostsLists from "@/app/(landing)/posts/_components/posts-lists";
+import PostsList from "@/app/(landing)/posts/_components/posts-list";
 import {CategoriesSection} from "@/app/(landing)/(home)/_components/categories-section";
 import {AboutPage} from "@/app/(landing)/(home)/_components/about-section";
 
@@ -36,23 +36,20 @@ export default async function Page(props: pageProps) {
     // 2. Get the initial post data (SSR)
     console.log("\n-------------------------------------------\n");
     console.log("home/page: postId", postId);
-    const post = await getPostById(postId);
-    if (!post) {
-        throw new Error("Post not found");
-    }
+
+    const post = postId ? await getPostById(postId) : null;
 
     return (
         <div
-            className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
             <HeroSection total={total}/>
-            {/*<SearchSection/>*/}
 
-                <PostsLists
-                    posts={items}
-                    total={total}
-                    initialPostId={postId}
-                    initialPost={post}
-                />
+            <PostsList
+                posts={items}
+                total={total}
+                initialPostId={postId}
+                initialPost={post}
+            />
 
             <CategoriesSection/>
             <AboutPage/>

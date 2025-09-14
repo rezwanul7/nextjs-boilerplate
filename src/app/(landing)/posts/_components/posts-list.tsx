@@ -7,27 +7,46 @@ import Link from "next/link";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
 import Pagination from "@/app/(landing)/(home)/_components/pagination";
-import {parseAsInteger, useQueryState} from "nuqs";
+import {parseAsInteger, parseAsString, useQueryState} from "nuqs";
 import {PostItem} from "@/app/(landing)/posts/_components/post-item";
 import PostPermalink from "@/app/(landing)/posts/_components/post-permalink";
-import {Input} from "@/components/ui/input";
+import {PostListSearchInput} from "@/app/(landing)/posts/_components/post-list-search-input";
+import {useRouter} from "next/navigation";
 
 interface PostsListsProps {
     posts: PostDto[],
     total: number,
     initialPostId: number,
-    initialPost: PostDto
+    initialPost: PostDto | null,
 }
 
-export default function PostsLists({posts, total, initialPostId, initialPost}: PostsListsProps) {
+export default function PostsList({posts, total, initialPostId, initialPost}: PostsListsProps) {
     const [selectedPostId, setSelectedPostId] = useQueryState("postId", parseAsInteger.withDefault(initialPostId));
     const [pageSize] = useQueryState('perPage', parseAsInteger.withDefault(10));
     const [page] = useQueryState('page', parseAsInteger.withDefault(1));
+    const [searchQuery, setSearchQuery] = useQueryState("title", parseAsString);
+    const router = useRouter();
 
     const onClickPostListItem = (postId: number) => {
         setSelectedPostId(postId);
     }
 
+    const handleSearch = (query: string) => {
+        // setSearchQuery(query);
+        // router.refresh();
+        //
+        // const params = new URLSearchParams(searchParams.toString());
+        // params.set("q", query);
+
+        router.replace(`/?title=${query}`, { scroll: false });
+
+        // if (!query) {
+        //     setFilteredPosts(posts);
+        //     return;
+        // }
+        // const lowerQuery = query.toLowerCase();
+        // setFilteredPosts(posts.filter((post) => post.title.toLowerCase().includes(lowerQuery)));
+    };
 
     // const [selectedPostId, setSelectedPostId] = useQueryState("postId", {
     //     defaultValue: String(initialPostId), // ensure controlled input
@@ -43,27 +62,21 @@ export default function PostsLists({posts, total, initialPostId, initialPost}: P
     // )
 
     return (
-        <div className="max-w-7xl px-6">
-            <div className="rounded-2xl shadow-xl overflow-hidden">
+        <div className="max-w-7xl px-6 -mt-17 mb-24">
+            <div className="rounded-2xl shadow-xl overflow-hidden bg-white border">
                 <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
                     {/* Left Sidebar - PostDto List */}
-                    <div className="lg:col-span-2 border-r border-gray-200 dark:border-gray-700">
+                    <div className="lg:col-span-2  border-r border-gray-200 dark:border-gray-700">
                         {/* Header with filters */}
                         <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
                             <div className="flex items-center gap-4">
                                 {/* Results count */}
                                 <span className="text-sm font-medium text-gray-900 dark:text-white shrink-0">
-                                    {posts.length} results
+                                    {total} results
                                 </span>
 
                                 {/* Search Bar - takes remaining space */}
-                                <div className="relative flex-1">
-                                    <Input
-                                        type="text"
-                                        placeholder="Search..."
-                                        className="pl-9 h-9 text-sm bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700"
-                                    />
-                                </div>
+                                <PostListSearchInput onSearch={handleSearch} initialValue={searchQuery ?? ""}/>
 
                                 <div className="flex items-center gap-2">
                                     <Button
@@ -95,7 +108,18 @@ export default function PostsLists({posts, total, initialPostId, initialPost}: P
                     {/* Right Content Panel */}
                     {/* Suspense can make the SEO bad - it will initially display Loading... rather than actual post*/}
                     {/*<Suspense key={postId} fallback={<LoadingJobContent/>}>*/}
-                    <PostItem initialPost={initialPost} selectedPostId={selectedPostId}/>
+                    {
+                        initialPost ?
+                            (
+                                <PostItem initialPost={initialPost} selectedPostId={selectedPostId}/>
+                            ) : (
+                                <div className="lg:col-span-3 flex items-center justify-center p-8">
+                                    <p className="text-gray-500">Sorry No posts found!</p>
+                                </div>
+                            )
+                    }
+
+
                     {/*</Suspense>*/}
                 </div>
             </div>

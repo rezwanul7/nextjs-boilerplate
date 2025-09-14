@@ -6,7 +6,7 @@ interface HeroSectionProps {
 
 export function HeroSection({total}: HeroSectionProps) {
     return (
-        <div className="bg-white py-20 border-b border-gray-200">
+        <div className="bg-white pt-20 pb-28 border-b border-gray-200">
             <div className="max-w-5xl mx-auto px-6 text-center">
                 {/* Small badge */}
                 <div className="inline-flex items-center gap-2 bg-gray-100 rounded-full px-4 py-1.5 mb-6">
