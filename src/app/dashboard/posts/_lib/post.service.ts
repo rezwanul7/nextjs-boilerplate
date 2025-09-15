@@ -1,4 +1,4 @@
-import {CreatePostDto, PostDto, PostMetaDto, PostMetaSchema} from "./post.dto";
+import {CreatePostDto, PostDto, PostMetaDto} from "./post.dto";
 import {prisma} from "@/lib/prisma";
 import {mergePostMeta} from "@/app/dashboard/posts/_lib/post.helper";
 

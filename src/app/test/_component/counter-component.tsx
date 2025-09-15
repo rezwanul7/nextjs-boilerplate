@@ -1,6 +1,6 @@
 // app/page.tsx
 'use client';
-import { useState } from 'react';
+import {useState} from 'react';
 
 export default function CounterComponent() {
     const [count, setCount] = useState(0);

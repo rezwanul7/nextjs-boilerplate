@@ -1,6 +1,5 @@
 'use client';
 import {useEffect, useState} from 'react';
-import CounterComponent from "@/app/test/_component/counter-component";
 
 export default function Page() {
     const [mounted, setMounted] = useState(false);

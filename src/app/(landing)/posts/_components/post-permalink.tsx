@@ -1,4 +1,3 @@
-import {useSearchParams} from "next/navigation";
 import Link from "next/link";
 import {LinkIcon} from "lucide-react";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";

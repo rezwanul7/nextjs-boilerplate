@@ -1,6 +1,5 @@
 import {Search} from "lucide-react";
 import {Input} from "@/components/ui/input";
-import {parseAsString, useQueryState} from "nuqs";
 import {useDebouncedCallback} from "@/hooks/use-debounced-callback";
 import {useState} from "react";
 

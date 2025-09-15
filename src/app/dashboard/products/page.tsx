@@ -1,5 +1,3 @@
-import {Suspense} from "react";
-import {DataTableSkeleton} from "@/components/data-table/data-table-skeleton";
 import {SearchParams} from "nuqs/server";
 import ProductListingPage from "@/app/dashboard/products/_components/products-listing-page";
 import type {Metadata} from "next";

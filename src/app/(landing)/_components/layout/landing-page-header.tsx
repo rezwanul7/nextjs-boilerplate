@@ -1,6 +1,6 @@
 "use client"
 
-import {BookOpen, Menu, Settings, User, X} from "lucide-react";
+import {BookOpen, Menu, X} from "lucide-react";
 import {Button} from "@/components/ui/button"
 import {useState} from "react";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";

@@ -9,6 +9,7 @@ import {labels, priorities, statuses} from "../data/data"
 import {Task} from "../data/schema"
 import {DataTableColumnHeader} from "@/components/dt/data-table-column-header"
 import {DataTableRowActions} from "@/components/dt/data-table-row-actions"
+
 export const columns: ColumnDef<Task>[] = [
     {
         id: "select",

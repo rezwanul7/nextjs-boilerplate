@@ -1,6 +1,6 @@
 'use client';
-import { AlertModal } from '@/components/modal/alert-modal';
-import { Button } from '@/components/ui/button';
+import {AlertModal} from '@/components/modal/alert-modal';
+import {Button} from '@/components/ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,9 +8,9 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import {IconEdit, IconDotsVertical, IconTrash, IconEye} from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import {IconDotsVertical, IconEdit, IconEye, IconTrash} from '@tabler/icons-react';
+import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import Link from "next/link";

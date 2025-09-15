@@ -1,7 +1,7 @@
 "use client";
 
-import { useQueryState } from "nuqs";
-import { Input } from "@/components/ui/input";
+import {useQueryState} from "nuqs";
+import {Input} from "@/components/ui/input";
 
 export default function SearchInput() {
 

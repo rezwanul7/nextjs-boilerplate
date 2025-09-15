@@ -1,7 +1,6 @@
 import {ChartAreaInteractive} from "@/components/chart-area-interactive"
 import {SectionCards} from "@/components/section-cards"
-import {DataTable} from "@/components/dt2/data-table";
-import data from "./data.json"
+
 export default function Page() {
     return (
         <div className="flex flex-1 flex-col">
