@@ -109,7 +109,7 @@ export function CategoriesSection() {
                                     ))}
                                 </div>
 
-                                <Link href="#">
+                                <Link href="#" scroll={false}>
                                     <Button
                                         className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold">
                                         Browse Articles

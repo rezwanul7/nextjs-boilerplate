@@ -78,6 +78,10 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
 
 }
 
+export async function totalPostsCount(): Promise<number> {
+    return prisma.post.count();
+}
+
 export async function getPostById(id: number): Promise<PostDto | null> {
     return await prisma.post.findUnique({
         where: {id},

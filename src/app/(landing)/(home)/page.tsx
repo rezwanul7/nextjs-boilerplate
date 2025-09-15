@@ -42,7 +42,8 @@ export default async function Page(props: pageProps) {
     return (
         <div
             className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-            <HeroSection total={total}/>
+
+            <HeroSection/>
 
             <PostsList
                 posts={items}
@@ -52,6 +53,7 @@ export default async function Page(props: pageProps) {
             />
 
             <CategoriesSection/>
+
             <AboutSection/>
         </div>
     )

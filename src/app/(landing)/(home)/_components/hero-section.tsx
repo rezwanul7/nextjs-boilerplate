@@ -1,10 +1,9 @@
 import {BookOpen} from "lucide-react";
+import {HeroSectionStats, HeroSectionStatsSkeleton} from "@/app/(landing)/(home)/_components/hero-section-stats";
+import {Suspense} from "react";
 
-interface HeroSectionProps {
-    total?: number
-}
+export async function HeroSection() {
 
-export function HeroSection({total}: HeroSectionProps) {
     return (
         <div className="bg-white pt-20 pb-28 border-b border-gray-200">
             <div className="max-w-5xl mx-auto px-6 text-center">
@@ -43,16 +42,9 @@ export function HeroSection({total}: HeroSectionProps) {
                 </div>
 
                 {/* Stats */}
-                <div className="flex items-center justify-center gap-4 mt-6">
-                    <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-1.5">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span className="text-gray-700 text-sm font-medium">{total} articles available</span>
-                    </div>
-                    <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-1.5">
-                        <BookOpen className="h-3 w-3 text-blue-600"/>
-                        <span className="text-gray-700 text-sm font-medium">5+ categories</span>
-                    </div>
-                </div>
+                <Suspense fallback={<HeroSectionStatsSkeleton/>}>
+                    <HeroSectionStats/>
+                </Suspense>
             </div>
         </div>
     )
