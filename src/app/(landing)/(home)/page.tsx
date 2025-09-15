@@ -21,20 +21,20 @@ export default async function Page(props: pageProps) {
     let postId = Number(searchParams.postId);
 
     if (postId) {
+        console.log(`SearchParams has postId: ${postId}`);
         // redirect to /posts/[postId]
-        console.log("page.tsx: postId from searchParams", postId);
     }
 
     const postSearchParams = postSearch.cache.parse(searchParams);
 
-    // throw new Error("Post not found");
-
     // 1. Get the posts for the sidebar (SSR)
     const {items, total} = await searchHomePosts(postSearchParams);
-    if (!postId && items.length > 0) postId = items[0].id;
+    if (!postId && items.length > 0) {
+        console.log(`No postId in query, defaulting to first post id ${items[0].id}`);
+        postId = items[0].id;
+    }
 
     // 2. Get the initial post data (SSR)
-    console.log("\n-------------------------------------------\n");
     console.log("home/page: postId", postId);
 
     const post = postId ? await getPostById(postId) : null;

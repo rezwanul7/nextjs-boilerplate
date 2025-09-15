@@ -99,13 +99,11 @@ export const columns: ColumnDef<PostDto>[] = [
             <DataTableColumnHeader column={column} title='Category'/>
         ),
         cell: ({cell}) => {
-            const status = cell.getValue<PostDto['category']>();
-            const Icon = status === 'active' ? CheckCircle2 : XCircle;
+            const category = cell.getValue<PostDto['category']>();
 
             return (
                 <Badge variant='outline' className='capitalize'>
-                    <Icon/>
-                    {status}
+                    {category}
                 </Badge>
             );
         },

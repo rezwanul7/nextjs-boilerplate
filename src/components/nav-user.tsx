@@ -1,6 +1,13 @@
 "use client"
 
-import {IconCreditCard, IconDotsVertical, IconLogout, IconNotification, IconUserCircle,} from "@tabler/icons-react"
+import {
+    IconCreditCard,
+    IconDotsVertical,
+    IconHome,
+    IconLogout,
+    IconNotification,
+    IconUserCircle,
+} from "@tabler/icons-react"
 import {useClerk} from "@clerk/nextjs";
 
 import {Avatar, AvatarFallback, AvatarImage,} from "@/components/ui/avatar"
@@ -15,6 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import {SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar,} from "@/components/ui/sidebar"
 import * as React from "react";
+import Link from "next/link";
 
 export function NavUser({user,}: {
     user: {
@@ -79,6 +87,12 @@ export function NavUser({user,}: {
                             <DropdownMenuItem>
                                 <IconNotification/>
                                 Notifications
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/">
+                                    <IconHome/>
+                                    Go to Homepage
+                                </Link>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator/>

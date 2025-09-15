@@ -86,7 +86,7 @@ export default async function Page(props: {
                 <TabsContent value="seo">
                     <Card>
                         <CardHeader>
-                            <CardTitle>SEO</CardTitle>
+                            <CardTitle>SEO Information</CardTitle>
                             <CardDescription>Please fill out your details below</CardDescription>
                         </CardHeader>
                         <CardContent>

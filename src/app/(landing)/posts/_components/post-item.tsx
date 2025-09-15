@@ -3,8 +3,10 @@
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {formatDate} from "@/lib/format";
 import useSWR from 'swr'
-import {PostItemShimmer} from "@/app/(landing)/posts/_components/post-item-shimmer";
 import {getHTMLFromJSONContent} from "@/lib/tiptap.utils";
+import {samplePosts} from "@/app/(landing)/posts/_data/data";
+import {Badge} from "@/components/ui/badge";
+import {getRoundRobinItem} from "@/lib/dummy";
 
 
 interface PostItemProps {
@@ -18,6 +20,8 @@ const fetcher = async (url: string) => {
 };
 
 export function PostItem({initialPost, selectedPostId}: PostItemProps) {
+    const dummyPost = getRoundRobinItem(selectedPostId, samplePosts);
+
     // 3. Fetch the post data on the client side (CSR) with SWR
     const {data, error, isLoading} = useSWR(
         `/api/posts/${selectedPostId}`,
@@ -38,7 +42,7 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
     if (isLoading) return <div>Loading...</div>;
     if (error) return <p className="p-6">Error loading post</p>;
 
-    console.log("PostItem : postId changed");
+    console.log("PostItem : postId changed to " + selectedPostId);
 
     return (
         <div className="lg:col-span-3">
@@ -50,13 +54,13 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
                     <div className="mb-4">
                         <div className="inline-flex items-center gap-2">
                             <div className="w-12 h-12 bg-yellow-400 rounded-lg flex items-center justify-center">
-                                <span className="font-bold text-black text-sm">{post.id}</span>
+                                <span className="font-bold text-black text-sm">{dummyPost.initials}</span>
                             </div>
                         </div>
                     </div>
 
                     <h1 className="text-2xl font-bold mb-2 text-balance">{post.title}</h1>
-                    <p className="text-blue-100 text-sm">{post.author?.firstName}</p>
+                    <p className="text-blue-100 text-sm">{dummyPost.author}</p>
                 </div>
             </div>
 
@@ -66,7 +70,7 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
                 <div className="flex items-center gap-6 mb-6 text-sm text-gray-600 dark:text-gray-400">
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        {/*<span>{selectedPost.readTime}</span>*/}
+                        <span>{dummyPost.readTime}</span>
                     </div>
                     <div className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
@@ -79,22 +83,22 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
                 </div>
 
                 {/* Tags Section */}
-                {/*<div className="mb-6">*/}
-                {/*    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Technologies</h3>*/}
-                {/*    <div className="flex flex-wrap gap-2">*/}
-                {/*        {post.tags.map((tag, index) => (*/}
-                {/*            <Badge key={index} variant="outline" className="text-xs">*/}
-                {/*                {tag}*/}
-                {/*            </Badge>*/}
-                {/*        ))}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                <div className="mb-6">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Technologies</h3>
+                    <div className="flex flex-wrap gap-2">
+                        {dummyPost.tags.map((tag, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                                {tag}
+                            </Badge>
+                        ))}
+                    </div>
+                </div>
 
                 {/* Article Content */}
                 <div className="prose prose-sm max-w-none text-gray-700 dark:text-gray-300">
                     <div className="whitespace-pre-wrap text-pretty leading-relaxed">
                         <div className="prose prose-slate dark:prose-invert max-w-none">
-                            <div dangerouslySetInnerHTML={{ __html: postHtml }} />
+                            <div dangerouslySetInnerHTML={{__html: postHtml}}/>
                         </div>
                     </div>
                 </div>
@@ -107,11 +111,11 @@ export function PostItem({initialPost, selectedPostId}: PostItemProps) {
                             <div
                                 className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-600 flex items-center justify-center">
                         <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                          {post.id}
+                          {dummyPost.initials}
                         </span>
                             </div>
                             <div>
-                                <p className="font-medium text-gray-900 dark:text-white text-sm">{post.author?.firstName}</p>
+                                <p className="font-medium text-gray-900 dark:text-white text-sm">{dummyPost.author}</p>
                                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
                                     Passionate about sharing knowledge and helping developers grow their skills.
                                 </p>

@@ -8,7 +8,7 @@ import {
     IconFileWord,
     IconFolder,
     IconHelp,
-    IconListDetails,
+    IconListDetails, IconPackages,
     IconReport,
     IconSearch,
     IconSettings,
@@ -30,7 +30,7 @@ export const appSideBarData = {
         {
             title: "Products",
             url: "/dashboard/products",
-            icon: IconListDetails,
+            icon: IconPackages,
         },
         {
             title: "Account",

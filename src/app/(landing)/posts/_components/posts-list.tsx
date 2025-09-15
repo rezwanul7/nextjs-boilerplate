@@ -12,6 +12,7 @@ import {PostItem} from "@/app/(landing)/posts/_components/post-item";
 import PostPermalink from "@/app/(landing)/posts/_components/post-permalink";
 import {PostListSearchInput} from "@/app/(landing)/posts/_components/post-list-search-input";
 import {useRouter} from "next/navigation";
+import {useEffect} from "react";
 
 interface PostsListsProps {
     posts: PostDto[],
@@ -21,46 +22,30 @@ interface PostsListsProps {
 }
 
 export default function PostsList({posts, total, initialPostId, initialPost}: PostsListsProps) {
-    const [selectedPostId, setSelectedPostId] = useQueryState("postId", parseAsInteger.withDefault(initialPostId));
+    console.log("PostsList: initialPostId=" + initialPostId);
+
+    const [queryPostId, setQueryPostId] = useQueryState("postId", parseAsInteger);
     const [pageSize] = useQueryState('perPage', parseAsInteger.withDefault(10));
     const [page] = useQueryState('page', parseAsInteger.withDefault(1));
     const [searchQuery, setSearchQuery] = useQueryState("title", parseAsString);
     const router = useRouter();
 
-    const onClickPostListItem = (postId: number) => {
-        setSelectedPostId(postId);
+    useEffect(() => {
+        // If no query param, sync default to URL
+        if (!queryPostId) {
+            setQueryPostId(initialPostId);
+        }
+    }, [initialPostId, setQueryPostId])
+
+    const onClickPostListItem = async (postId: number) => {
+        await setQueryPostId(postId);
     }
 
     const handleSearch = (query: string) => {
-        // setSearchQuery(query);
-        // router.refresh();
-        //
-        // const params = new URLSearchParams(searchParams.toString());
-        // params.set("q", query);
-
-        router.replace(`/?title=${query}`, { scroll: false });
-
-        // if (!query) {
-        //     setFilteredPosts(posts);
-        //     return;
-        // }
-        // const lowerQuery = query.toLowerCase();
-        // setFilteredPosts(posts.filter((post) => post.title.toLowerCase().includes(lowerQuery)));
+        const lowerCaseQuery = query.toLowerCase();
+        router.replace(`/?title=${lowerCaseQuery}`, {scroll: false});
     };
-
-    // const [selectedPostId, setSelectedPostId] = useQueryState("postId", {
-    //     defaultValue: String(initialPostId), // ensure controlled input
-    // });
-
-    //
-    // const [searchQuery, setSearchQuery] = useState("")
-    //
-    // const filteredPosts = samplePosts.filter(
-    //     (post) =>
-    //         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //         post.content.toLowerCase().includes(searchQuery.toLowerCase()),
-    // )
-
+    
     return (
         <div className="max-w-7xl px-6 -mt-17 mb-24">
             <div className="rounded-2xl shadow-xl overflow-hidden bg-white border">
@@ -96,7 +81,7 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
                                 <PostListLinkItem2
                                     key={post.id}
                                     post={post}
-                                    selectedPostId={selectedPostId}
+                                    selectedPostId={queryPostId ?? initialPostId}
                                     onClickPostListItem={onClickPostListItem}
                                 />
                             ))}
@@ -111,7 +96,7 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
                     {
                         initialPost ?
                             (
-                                <PostItem initialPost={initialPost} selectedPostId={selectedPostId}/>
+                                <PostItem initialPost={initialPost} selectedPostId={queryPostId ?? initialPostId}/>
                             ) : (
                                 <div className="lg:col-span-3 flex items-center justify-center p-8">
                                     <p className="text-gray-500">Sorry No posts found!</p>
@@ -136,7 +121,6 @@ function PostListLinkItem2({
     selectedPostId: number,
     onClickPostListItem: (postId: number) => void,
 }) {
-
 
     return (
         <div
