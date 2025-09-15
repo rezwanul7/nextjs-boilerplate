@@ -4,8 +4,7 @@ import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
 import {HeroSection} from "@/app/(landing)/(home)/_components/hero-section";
 import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.queries";
 import PostsList from "@/app/(landing)/posts/_components/posts-list";
-import {CategoriesSection} from "@/app/(landing)/(home)/_components/categories-section";
-import {AboutSection} from "@/app/(landing)/(home)/_components/about-section";
+import PostList2 from "@/app/(landing)/posts/_components/post-list-2";
 
 export const metadata: Metadata = {
     title: 'HomePage'
@@ -40,21 +39,15 @@ export default async function Page(props: pageProps) {
     const post = postId ? await getPostById(postId) : null;
 
     return (
-        <div
-            className="bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-
+        <div>
             <HeroSection/>
-
+            <PostList2/>
             <PostsList
                 posts={items}
                 total={total}
                 initialPostId={postId}
                 initialPost={post}
             />
-
-            <CategoriesSection/>
-
-            <AboutSection/>
         </div>
     )
 }

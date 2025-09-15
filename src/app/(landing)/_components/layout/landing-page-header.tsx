@@ -5,7 +5,6 @@ import {Button} from "@/components/ui/button"
 import {useState} from "react";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
 import Link from "next/link";
-import {scrollToSection} from "@/lib/scroll";
 
 export default function LandingPageHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -16,15 +15,15 @@ export default function LandingPageHeader() {
             <div className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
                 <Link href="/" className="flex items-center space-x-3">
                     <div
-                        className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
+                        className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-600 to-pink-600 flex items-center justify-center shadow-lg">
                         <BookOpen className="h-5 w-5 text-white"/>
                     </div>
                     <div>
                         <span className="font-bold text-xl text-gray-900 dark:text-white">
-                            DevBlog
+                            MicroBlog
                         </span>
                         <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">
-                            Knowledge Hub
+                            Developer Community
                         </p>
                     </div>
                 </Link>
@@ -34,29 +33,48 @@ export default function LandingPageHeader() {
                         <Button
                             variant="ghost"
                             size="sm"
-                            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                            className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
                         >
-                            Home
+                            Feed
                         </Button>
                     </Link>
 
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                        onClick={() => scrollToSection("categories")}
+                        disabled
+                        className="text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60 font-medium"
                     >
-                        Categories
+                        Explore
                     </Button>
 
                     <Button
                         variant="ghost"
                         size="sm"
-                        className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                        onClick={() => scrollToSection("about")}
+                        disabled
+                        className="text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60 font-medium"
                     >
-                        About
+                        Articles
                     </Button>
+
+                    <Link href="/categories">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                        >
+                            Topics
+                        </Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                        >
+                            About
+                        </Button>
+                    </Link>
                     <div
                         className="flex items-center space-x-2 ml-4 pl-4 border-l border-gray-200 dark:border-gray-700">
                         <SignedOut>
@@ -86,7 +104,7 @@ export default function LandingPageHeader() {
                         variant="ghost"
                         size="icon"
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+                        className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400"
                     >
                         {isMobileMenuOpen ? <X className="h-5 w-5"/> : <Menu className="h-5 w-5"/>}
                     </Button>
@@ -100,27 +118,49 @@ export default function LandingPageHeader() {
                         <Link href="/">
                             <Button
                                 variant="ghost"
-                                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
+                                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
                             >
-                                Home
+                                Feed
                             </Button>
                         </Link>
 
-                        <Button
-                            variant="ghost"
-                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                            onClick={() => scrollToSection("categories")}
-                        >
-                            Categories
-                        </Button>
 
                         <Button
                             variant="ghost"
-                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 font-medium"
-                            onClick={() => scrollToSection("about")}
+                            disabled
+                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
                         >
-                            About
+                            Explore
                         </Button>
+
+
+                        <Button
+                            variant="ghost"
+                            disabled
+                            className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                        >
+                            Articles
+                        </Button>
+
+
+                        <Link href="/categories">
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                            >
+                                Topics
+                            </Button>
+                        </Link>
+
+                        <Link href="/about">
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                            >
+                                About
+                            </Button>
+                        </Link>
+
                         <div
                             className="flex items-center justify-center space-x-4 pt-3 border-t border-gray-200 dark:border-gray-700">
                             <SignedOut>
@@ -142,21 +182,6 @@ export default function LandingPageHeader() {
                                 </Link>
                                 <UserButton/>
                             </SignedIn>
-
-                            {/*<Button*/}
-                            {/*    variant="ghost"*/}
-                            {/*    size="icon"*/}
-                            {/*    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"*/}
-                            {/*>*/}
-                            {/*    <User className="h-4 w-4"/>*/}
-                            {/*</Button>*/}
-                            {/*<Button*/}
-                            {/*    variant="ghost"*/}
-                            {/*    size="icon"*/}
-                            {/*    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"*/}
-                            {/*>*/}
-                            {/*    <Settings className="h-4 w-4"/>*/}
-                            {/*</Button>*/}
                         </div>
                     </div>
                 </div>

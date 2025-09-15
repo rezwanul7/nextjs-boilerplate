@@ -47,7 +47,7 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
     };
     
     return (
-        <div className="max-w-7xl px-6 -mt-17 mb-24">
+        <div className="max-w-7xl px-6 my-24">
             <div className="rounded-2xl shadow-xl overflow-hidden bg-white border">
                 <div className="grid grid-cols-1 lg:grid-cols-5 min-h-[600px]">
                     {/* Left Sidebar - PostDto List */}
