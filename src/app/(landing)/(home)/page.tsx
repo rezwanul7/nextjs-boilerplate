@@ -1,10 +1,10 @@
 import type {Metadata} from "next";
 import {SearchParams} from "nuqs/server";
 import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
-import {HeroSection} from "@/app/(landing)/(home)/_components/hero-section";
-import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.queries";
-import PostsList from "@/app/(landing)/posts/_components/posts-list";
 import PostList2 from "@/app/(landing)/posts/_components/post-list-2";
+import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
+import {fetchPosts} from "@/app/(landing)/posts/_lib/post.api.client";
+import {getQueryClient} from "@/lib/tanstack-query-client";
 
 export const metadata: Metadata = {
     title: 'HomePage'
@@ -17,37 +17,25 @@ type pageProps = {
 export default async function Page(props: pageProps) {
     const searchParams = await props.searchParams;
 
-    let postId = Number(searchParams.postId);
+    // 1. Get the initial post data (SSR)
+    const queryString = postSearch.serialize(searchParams);
+    console.log("server- queryString", queryString);
 
-    if (postId) {
-        console.log(`SearchParams has postId: ${postId}`);
-        // redirect to /posts/[postId]
-    }
+    const queryClient = getQueryClient();
 
-    const postSearchParams = postSearch.cache.parse(searchParams);
-
-    // 1. Get the posts for the sidebar (SSR)
-    const {items, total} = await searchHomePosts(postSearchParams);
-    if (!postId && items.length > 0) {
-        console.log(`No postId in query, defaulting to first post id ${items[0].id}`);
-        postId = items[0].id;
-    }
-
-    // 2. Get the initial post data (SSR)
-    console.log("home/page: postId", postId);
-
-    const post = postId ? await getPostById(postId) : null;
+    await queryClient.prefetchQuery({
+        queryKey: ["posts", queryString],
+        queryFn: () => fetchPosts(queryString),
+    })
 
     return (
         <div>
-            <HeroSection/>
-            <PostList2/>
-            <PostsList
-                posts={items}
-                total={total}
-                initialPostId={postId}
-                initialPost={post}
-            />
+            <HydrationBoundary state={dehydrate(queryClient)}>
+                {/*<HeroSection/>*/}
+                <PostList2
+                    // posts={items} total={total}
+                />
+            </HydrationBoundary>
         </div>
     )
 }

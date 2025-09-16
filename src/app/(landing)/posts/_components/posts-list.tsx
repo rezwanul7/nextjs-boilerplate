@@ -45,7 +45,7 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
         const lowerCaseQuery = query.toLowerCase();
         router.replace(`/?title=${lowerCaseQuery}`, {scroll: false});
     };
-    
+
     return (
         <div className="max-w-7xl px-6 my-24">
             <div className="rounded-2xl shadow-xl overflow-hidden bg-white border">
@@ -92,7 +92,7 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
                     </div>
                     {/* Right Content Panel */}
                     {/* Suspense can make the SEO bad - it will initially display Loading... rather than actual post*/}
-                    {/*<Suspense key={postId} fallback={<LoadingJobContent/>}>*/}
+                    {/*<Suspense key={queryPostId ?? initialPostId} fallback={<div>Loading</div>}>*/}
                     {
                         initialPost ?
                             (
@@ -103,7 +103,6 @@ export default function PostsList({posts, total, initialPostId, initialPost}: Po
                                 </div>
                             )
                     }
-
 
                     {/*</Suspense>*/}
                 </div>

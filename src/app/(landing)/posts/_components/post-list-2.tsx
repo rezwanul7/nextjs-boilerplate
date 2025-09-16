@@ -4,6 +4,10 @@ import {useState} from "react"
 import {Bookmark, Heart, MessageCircle, MoreHorizontal, Repeat2, Share,} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {Badge} from "@/components/ui/badge"
+import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
+import {usePosts} from "@/app/(landing)/posts/_hooks/usePosts";
+import {getRoundRobinItem} from "@/lib/dummy";
+
 
 const samplePosts = [
     {
@@ -86,145 +90,191 @@ const samplePosts = [
         isBookmarked: false,
         image: null,
     },
+    {
+        id: 6,
+        author: "Dev Community",
+        username: "@devcommunity",
+        initials: "DC",
+        timeAgo: "8h",
+        content:
+            '📚 Weekend reading list for developers:\n\n1. "Clean Code" by Robert Martin\n2. "System Design Interview" by Alex Xu\n3. "The Pragmatic Programmer" by Hunt & Thomas\n\nWhich one should I start with? Drop your recommendations below! 👇',
+        tags: ["Books", "Learning", "Community"],
+        likes: 234,
+        comments: 67,
+        reposts: 89,
+        isLiked: true,
+        isBookmarked: true,
+        image: null,
+    },
 ]
 
-export default function PostList2() {
-    const [posts, setPosts] = useState(samplePosts)
 
-    const filteredPosts = posts.filter(
-        (post) => true
-        // post.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        // post.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        // post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())),
-    )
+interface PostList2Props {
+    posts: PostDto[],
+    total: number
+}
+
+// {posts, total}: PostList2Props
+export default function PostList2() {
+    const [posts, setPosts] = useState(samplePosts);
 
     const handleLike = (postId: number) => {
         setPosts(
             posts.map((post) =>
                 post.id === postId
-                    ? { ...post, isLiked: !post.isLiked, likes: post.isLiked ? post.likes - 1 : post.likes + 1 }
+                    ? {...post, isLiked: !post.isLiked, likes: post.isLiked ? post.likes - 1 : post.likes + 1}
                     : post,
             ),
         )
     }
 
     const handleBookmark = (postId: number) => {
-        setPosts(posts.map((post) => (post.id === postId ? { ...post, isBookmarked: !post.isBookmarked } : post)))
+        setPosts(posts.map((post) => (post.id === postId ? {...post, isBookmarked: !post.isBookmarked} : post)))
     }
+
+    const {
+        queryParams,
+        queryString,
+        items,
+        total,
+        isLoading,
+        isPending,
+        isFetching,
+        isError,
+        error,
+        handlePageChange,
+    } = usePosts();
+
+    if (isLoading) return <div>isLoading...</div>;
+    if (isError) return <div>Error: {error?.message}</div>;
 
     return (
         <div className="max-w-2xl mx-auto px-6 py-8">
+            {/*{isFetching && <span>Refreshing...</span>}*/}
+            <div className="p-6">
+                <PaginationSection
+                    totalCount={total}
+                    page={queryParams.page}
+                    perPage={queryParams.perPage}
+                    onPageChange={handlePageChange}
+                />
+            </div>
             <div className="space-y-6">
-                {filteredPosts.map((post) => (
-                    <div
-                        key={post.id}
-                        className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-200"
-                    >
-                        {/* Post Header */}
-                        <div className="p-6 pb-4">
-                            <div className="flex items-start justify-between mb-4">
-                                <div className="flex items-center gap-3">
-                                    <div
-                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
-                                        <span className="text-sm font-bold text-white">{post.initials}</span>
+                {items.map((post) => {
+                    const dummyPost = getRoundRobinItem(post.id, samplePosts);
+
+                    return (
+                        <div
+                            key={post.id}
+                            className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-200"
+                        >
+                            {/* Post Header */}
+                            <div className="p-6 pb-4">
+                                <div className="flex items-start justify-between mb-4">
+                                    <div className="flex items-center gap-3">
+                                        <div
+                                            className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
+                                            <span className="text-sm font-bold text-white">{dummyPost.initials}</span>
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-gray-900 dark:text-white text-sm">{dummyPost.author}</h3>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                {dummyPost.username} • {dummyPost.timeAgo}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="font-semibold text-gray-900 dark:text-white text-sm">{post.author}</h3>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                                            {post.username} • {post.timeAgo}
-                                        </p>
-                                    </div>
+                                    <Button variant="ghost" size="icon"
+                                            className="h-8 w-8 text-gray-400 hover:text-gray-600">
+                                        <MoreHorizontal className="h-4 w-4"/>
+                                    </Button>
                                 </div>
-                                <Button variant="ghost" size="icon"
-                                        className="h-8 w-8 text-gray-400 hover:text-gray-600">
-                                    <MoreHorizontal className="h-4 w-4"/>
-                                </Button>
-                            </div>
 
-                            {/* Post Content */}
-                            <div className="mb-4">
-                                <p className="text-gray-900 dark:text-white text-sm leading-relaxed whitespace-pre-wrap">
-                                    {post.content}
-                                </p>
-                                {post.image && (
-                                    <div className="mt-4 rounded-xl overflow-hidden">
-                                        <img
-                                            src={post.image || "/placeholder.svg"}
-                                            alt="Post image"
-                                            className="w-full h-48 object-cover"
-                                        />
-                                    </div>
-                                )}
-                            </div>
+                                {/* Post Content */}
+                                <div className="mb-4">
+                                    <p className="text-gray-900 dark:text-white text-sm leading-relaxed whitespace-pre-wrap">
+                                        {post.title}
+                                    </p>
+                                    {dummyPost.image && (
+                                        <div className="mt-4 rounded-xl overflow-hidden">
+                                            <img
+                                                src={dummyPost.image || "/placeholder.svg"}
+                                                alt="Post image"
+                                                className="w-full h-48 object-cover"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
 
-                            {/* Tags */}
-                            <div className="flex flex-wrap gap-2 mb-4">
-                                {post.tags.map((tag, index) => (
-                                    <Badge key={index} variant="secondary" className="text-xs px-2 py-1">
-                                        #{tag}
-                                    </Badge>
-                                ))}
-                            </div>
+                                {/* Tags */}
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                    {dummyPost.tags.map((tag, index) => (
+                                        <Badge key={index} variant="secondary" className="text-xs px-2 py-1">
+                                            #{tag}
+                                        </Badge>
+                                    ))}
+                                </div>
 
-                            {/* Engagement Stats */}
-                            <div
-                                className="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400 mb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
-                                <span>{post.likes} likes</span>
-                                <span>{post.comments} comments</span>
-                                <span>{post.reposts} reposts</span>
-                            </div>
+                                {/* Engagement Stats */}
+                                <div
+                                    className="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400 mb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                                    <span>{dummyPost.likes} likes</span>
+                                    <span>{dummyPost.comments} comments</span>
+                                    <span>{dummyPost.reposts} reposts</span>
+                                </div>
 
-                            {/* Action Buttons */}
-                            <div
-                                className="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleLike(post.id)}
-                                    className={`flex items-center gap-2 hover:bg-red-50 hover:text-red-600 ${
-                                        post.isLiked ? "text-red-600" : "text-gray-500"
-                                    }`}
-                                >
-                                    <Heart className={`h-4 w-4 ${post.isLiked ? "fill-current" : ""}`}/>
-                                    <span className="text-xs">{post.likes}</span>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="flex items-center gap-2 hover:bg-orange-50 hover:text-orange-600 text-gray-500"
-                                >
-                                    <MessageCircle className="h-4 w-4"/>
-                                    <span className="text-xs">{post.comments}</span>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="flex items-center gap-2 hover:bg-green-50 hover:text-green-600 text-gray-500"
-                                >
-                                    <Repeat2 className="h-4 w-4"/>
-                                    <span className="text-xs">{post.reposts}</span>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="flex items-center gap-2 hover:bg-gray-50 hover:text-gray-600 text-gray-500"
-                                >
-                                    <Share className="h-4 w-4"/>
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleBookmark(post.id)}
-                                    className={`flex items-center gap-2 hover:bg-amber-50 hover:text-amber-600 ${
-                                        post.isBookmarked ? "text-amber-600" : "text-gray-500"
-                                    }`}
-                                >
-                                    <Bookmark className={`h-4 w-4 ${post.isBookmarked ? "fill-current" : ""}`}/>
-                                </Button>
+                                {/* Action Buttons */}
+                                <div
+                                    className="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleLike(dummyPost.id)}
+                                        className={`flex items-center gap-2 hover:bg-red-50 hover:text-red-600 ${
+                                            dummyPost.isLiked ? "text-red-600" : "text-gray-500"
+                                        }`}
+                                    >
+                                        <Heart className={`h-4 w-4 ${dummyPost.isLiked ? "fill-current" : ""}`}/>
+                                        <span className="text-xs">{dummyPost.likes}</span>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="flex items-center gap-2 hover:bg-orange-50 hover:text-orange-600 text-gray-500"
+                                    >
+                                        <MessageCircle className="h-4 w-4"/>
+                                        <span className="text-xs">{dummyPost.comments}</span>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="flex items-center gap-2 hover:bg-green-50 hover:text-green-600 text-gray-500"
+                                    >
+                                        <Repeat2 className="h-4 w-4"/>
+                                        <span className="text-xs">{dummyPost.reposts}</span>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="flex items-center gap-2 hover:bg-gray-50 hover:text-gray-600 text-gray-500"
+                                    >
+                                        <Share className="h-4 w-4"/>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleBookmark(dummyPost.id)}
+                                        className={`flex items-center gap-2 hover:bg-amber-50 hover:text-amber-600 ${
+                                            dummyPost.isBookmarked ? "text-amber-600" : "text-gray-500"
+                                        }`}
+                                    >
+                                        <Bookmark
+                                            className={`h-4 w-4 ${dummyPost.isBookmarked ? "fill-current" : ""}`}/>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
 
             {/* Load More Button */}
@@ -235,4 +285,52 @@ export default function PostList2() {
             </div>
         </div>
     )
+}
+
+interface PaginationSectionProps {
+    page: number;
+    perPage: number;
+    totalCount: number;
+    onPageChange: (newPage: number) => void;
+}
+
+function PaginationSection({
+                               page,
+                               perPage,
+                               totalCount,
+                               onPageChange,
+                           }: PaginationSectionProps) {
+    const totalPages = Math.max(1, Math.ceil(totalCount / perPage));
+
+    const handlePrev = () => {
+        if (page > 1) onPageChange(page - 1);
+    };
+
+    const handleNext = () => {
+        if (page < totalPages) onPageChange(page + 1);
+    };
+
+    return (
+        <div className="flex items-center justify-center gap-4 mt-6">
+            <button
+                onClick={handlePrev}
+                disabled={page <= 1}
+                className="px-3 py-1 rounded-md bg-gray-200 disabled:opacity-50"
+            >
+                Prev
+            </button>
+
+            <span className="text-sm font-medium">
+        Page {page} of {totalPages} &nbsp;|&nbsp; {totalCount} results
+      </span>
+
+            <button
+                onClick={handleNext}
+                disabled={page >= totalPages}
+                className="px-3 py-1 rounded-md bg-gray-200 disabled:opacity-50"
+            >
+                Next
+            </button>
+        </div>
+    );
 }
