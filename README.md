@@ -7,7 +7,7 @@ Microblogging platform powered by Next.js — lightning-fast, scalable, and beau
 Frontend, Backend & Infra — a full-stack microblogging platform with:
 
 * [ ] **Infinite Scroll Pagination** — posts feed with seamless scroll loading
-* [ ] **Client-Side Caching with React Query** — data synchronization and request deduplication
+* [x] **Client-Side Caching with React Query** — data synchronization and request deduplication
 * [x] **Shadcn DataTable** — server-side sorting, filtering, and pagination
 * [x] **Form Validation** — schema validation with **Zod** + handling via **React Hook Form**
 * [x] **Type-Safe URL State Management** — **nuqs** for query parameters with search & filter debouncing
