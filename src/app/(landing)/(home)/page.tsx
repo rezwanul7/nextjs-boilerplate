@@ -55,6 +55,8 @@ export default async function Page(props: pageProps) {
             <CategoriesSection/>
 
             <AboutSection/>
+
+            <div className="hidden">{process.env.NEXT_PUBLIC_BASE_URL ?? "Don't know"}</div>
         </div>
     )
 }
