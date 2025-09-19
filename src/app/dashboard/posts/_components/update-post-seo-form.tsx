@@ -12,7 +12,7 @@ import InputFormField from "@/components/form/input-form-field";
 import {FormFooter} from "@/components/form/form-footer";
 import TextareaFormField from "@/components/form/textarea-form-field";
 import {objectToFormData} from "@/lib/form/formData.utils";
-import {getTextFromJSONContent} from "@/lib/tiptap.utils";
+import {getTextFromJSONContent} from "@/lib/tiptap/tiptap.utils";
 
 interface UpdatePostSeoFormProps {
     post: PostDto

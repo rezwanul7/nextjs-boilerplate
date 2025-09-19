@@ -8,7 +8,7 @@ import BlogPageHero from "@/app/(landing)/posts/[slug]/_components/blog-page-her
 import BlogPageLikeButton from "@/app/(landing)/posts/[slug]/_components/blog-page-like-button";
 import {getPostBySlug} from "@/app/(landing)/posts/_lib/post.queries";
 import {Metadata} from "next";
-import {getHTMLFromJSONContent, getTextFromJSONContent} from "@/lib/tiptap.utils";
+import {getHTMLFromJSONContent, getTextFromJSONContent} from "@/lib/tiptap/tiptap.utils";
 import BlogPageRelatedPosts from "@/app/(landing)/posts/[slug]/_components/blog-page-related-posts";
 
 // Sample blog post data
