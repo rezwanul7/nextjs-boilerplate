@@ -8,7 +8,7 @@ import {productSearch} from "@/app/dashboard/products/_lib/product.types";
 
 
 export const metadata: Metadata = {
-    title: 'Dashboard: Products'
+    title: 'Products'
 };
 
 type pageProps = {

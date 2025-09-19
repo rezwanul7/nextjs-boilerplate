@@ -3,6 +3,16 @@ import {SiteHeader} from "@/components/site-header";
 import NextTopLoader from 'nextjs-toploader';
 
 import {SidebarInset, SidebarProvider,} from "@/components/ui/sidebar"
+import type {Metadata} from "next";
+import {siteData} from "@/constants/site";
+
+export const metadata: Metadata = {
+    title: {
+        default: `Dashboard`,
+        template: `%s - Dashboard | ${siteData.title}`,
+    },
+
+};
 
 export default async function Layout({children}: { children: React.ReactNode }) {
     return (

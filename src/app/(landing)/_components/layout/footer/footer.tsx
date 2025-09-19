@@ -188,7 +188,7 @@ export function Footer() {
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-300">
                             <a
-                                href={siteData.portfolioUrl}
+                                href={siteData.authorUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-blue-400 hover:underline"

@@ -32,10 +32,10 @@ export function SiteHeader() {
                         )
                     }
                     {
-                        siteData.portfolioUrl && (
+                        siteData.authorUrl && (
                             <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
                                 <a
-                                    href={siteData.portfolioUrl}
+                                    href={siteData.authorUrl}
                                     rel="noopener noreferrer"
                                     target="_blank"
                                     className="dark:text-foreground"

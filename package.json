@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev-app": "next dev -p 3001 --turbopack",
     "build": "next build",
     "postinstall": "prisma generate",
     "start": "next start",
