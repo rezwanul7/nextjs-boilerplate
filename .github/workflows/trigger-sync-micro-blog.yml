@@ -1,0 +1,15 @@
+name: Trigger Micro-Blog Sync
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger_dispatch:
+    uses: ./.github/workflows/dispatch-orchestrator.yml
+    with:
+      event_type: trigger-sync-micro-blog
+      source_branch: micro-blog/main
+    secrets:
+      PROXY_API_URL: ${{ secrets.PROXY_API_BEARER_TOKEN }}
+      API_BEARER_TOKEN: ${{ secrets.PROXY_API_BEARER_TOKEN }}

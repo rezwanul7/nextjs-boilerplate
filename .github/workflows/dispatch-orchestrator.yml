@@ -1,0 +1,35 @@
+# File: .github/workflows/dispatch-orchestrator.yml
+name: Dispatch Orchestrator
+
+on:
+  workflow_call:
+    inputs:
+      event_type:
+        required: true
+        type: string
+      source_branch:
+        required: true
+        type: string
+    secrets:
+      PROXY_API_URL:
+        required: true
+      API_BEARER_TOKEN:
+        required: true
+        description: "Bearer token to authenticate with the orchestrator dispatcher proxy service"
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call orchestrator via proxy
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.API_BEARER_TOKEN }}" \
+            -H "Accept: application/json" \
+            "${{ secrets.PROXY_API_URL }}" \
+            -d "{
+              \"event_type\": \"${{ inputs.event_type }}\",
+              \"client_payload\": {
+                \"source_branch\": \"${{ inputs.source_branch }}\"
+              }
+            }"
