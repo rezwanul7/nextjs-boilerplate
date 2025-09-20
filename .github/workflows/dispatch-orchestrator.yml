@@ -4,6 +4,9 @@ name: Dispatch Orchestrator
 on:
   workflow_call:
     inputs:
+      proxy_api_url:
+        required: true
+        type: string
       event_type:
         required: true
         type: string
@@ -11,8 +14,6 @@ on:
         required: true
         type: string
     secrets:
-      PROXY_API_URL:
-        required: true
       API_BEARER_TOKEN:
         required: true
         description: "Bearer token to authenticate with the orchestrator dispatcher proxy service"
@@ -26,7 +27,7 @@ jobs:
           curl -X POST \
             -H "Authorization: token ${{ secrets.API_BEARER_TOKEN }}" \
             -H "Accept: application/json" \
-            "${{ secrets.PROXY_API_URL }}" \
+            "${{ inputs.proxy_api_url }}" \
             -d "{
               \"event_type\": \"${{ inputs.event_type }}\",
               \"client_payload\": {
