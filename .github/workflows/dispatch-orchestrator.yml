@@ -24,8 +24,8 @@ jobs:
     steps:
       - name: Call orchestrator via proxy
         run: |
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.API_BEARER_TOKEN }}" \
+          curl -f -X POST \
+            -H "Authorization: Bearer ${{ secrets.API_BEARER_TOKEN }}" \
             -H "Accept: application/json" \
             "${{ inputs.proxy_api_url }}" \
             -d "{
