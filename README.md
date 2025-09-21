@@ -95,6 +95,8 @@ from the creators of Next.js.
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for
 more details.
 
+## Deploy using Docker
+
 ## License
 
 Licensed under the MIT License. Check the [LICENSE](./LICENSE.md) file for details.
