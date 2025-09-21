@@ -1,6 +1,7 @@
 import {faker} from "@faker-js/faker";
 import {type Category, CategoryEnum} from "./category.utils";
 import {prisma} from "@/lib/prisma";
+import {generateFakeTipTapContent, getRandomBlockList} from "@/lib/tiptap/tiptap-fake-doc";
 
 
 /**
@@ -21,7 +22,11 @@ export async function seedPosts(authorId: string, count = 10, truncate = false) 
         const category = faker.helpers.arrayElement(categories) as Category;
         const title = faker.lorem.sentence();
         const slug = faker.helpers.slugify(title).toLowerCase();
-        const content = faker.lorem.paragraphs(faker.number.int({min: 1, max: 5}));
+        // const content = faker.lorem.paragraphs(faker.number.int({min: 1, max: 5}));
+        const randomBlocks = getRandomBlockList(undefined, 2, 6);
+        // e.g. ["heading", "paragraph", "code"]
+        const content = generateFakeTipTapContent(randomBlocks);
+
         const published = faker.datatype.boolean();
         const meta = {
             description: faker.lorem.sentence(),

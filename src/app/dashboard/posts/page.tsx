@@ -11,7 +11,7 @@ import NavigateButton from "@/components/buttons/navigate-button";
 
 
 export const metadata: Metadata = {
-    title: 'Dashboard: Posts'
+    title: 'Posts'
 };
 
 type pageProps = {

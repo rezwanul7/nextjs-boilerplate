@@ -36,6 +36,7 @@ export default async function Page(props: pageProps) {
                     // posts={items} total={total}
                 />
             </HydrationBoundary>
+
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import {ChartAreaInteractive} from "@/components/chart-area-interactive"
 import {SectionCards} from "@/components/section-cards"
+import type {Metadata} from "next";
 
 export default function Page() {
     return (

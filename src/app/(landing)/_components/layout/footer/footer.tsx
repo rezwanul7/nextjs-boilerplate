@@ -176,7 +176,7 @@ export function Footer() {
             <div className="py-6 border-t border-orange-800">
                 <div className="container mx-auto text-center">
                     <a
-                        href={siteData.portfolioUrl}
+                        href={siteData.authorUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 text-sm text-gray-400 hover:text-gray-200 transition-colors"
