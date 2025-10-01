@@ -6,6 +6,7 @@ import {getPostById, searchHomePosts} from "@/app/(landing)/posts/_lib/post.quer
 import PostsList from "@/app/(landing)/posts/_components/posts-list";
 import {CategoriesSection} from "@/app/(landing)/(home)/_components/categories-section";
 import {AboutSection} from "@/app/(landing)/(home)/_components/about-section";
+import {envConfig} from "@/config/env";
 
 export const metadata: Metadata = {
     title: 'HomePage'
@@ -56,7 +57,7 @@ export default async function Page(props: pageProps) {
 
             <AboutSection/>
 
-            <div className="hidden">{process.env.NEXT_PUBLIC_BASE_URL ?? "Don't know"}</div>
+            <div className="hidden">{envConfig.baseUrl ?? "Don't know"}</div>
         </div>
     )
 }

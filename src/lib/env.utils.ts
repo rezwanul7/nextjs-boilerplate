@@ -4,14 +4,17 @@ type EnvVarOptions = {
     isRequired?: boolean
 }
 
-export function getEnvVal({name, default: def, isRequired = true}: EnvVarOptions): string {
+export function getEnvVal({name, default: def, isRequired = false}: EnvVarOptions): string {
     const value = process.env[name] || def
-    const usingOnServerSide = typeof window === "undefined"
+    const usingOnClientSide = !(typeof window === "undefined")
 
-    // If the variable is explicitly required
-    // Or it is being used/called on the server-side
-    // then if it's value is missing, throw an error
-    if (!value && (usingOnServerSide || isRequired)) {
+    // Prevent leaking server-only vars to the client
+    if (usingOnClientSide && !name.startsWith("NEXT_PUBLIC_")) {
+        throw new Error(`You are using a non-NEXT_PUBLIC_ environment variable (${name}) on the client-side.`)
+    }
+
+    // Enforce required variables
+    if (!value && isRequired) {
         throw new Error(`Missing environment variable: ${name}`)
     }
 
