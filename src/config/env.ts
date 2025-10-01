@@ -1,17 +1,11 @@
-function getEnvVal(name: string): string {
-    const value = process.env[name]
-    const isServer = typeof window === "undefined"
-    if (!value && isServer) {
-        throw new Error(`Missing environment variable: ${name} in server env`)
-    }
-    return value || ""
-}
+import {getEnvVal} from "@/lib/env.utils";
+
 
 export const envConfig = {
-    baseUrl: getEnvVal("NEXT_PUBLIC_BASE_URL"),
-    apiUrl: `${getEnvVal("NEXT_PUBLIC_BASE_URL")}/api`,
+    baseUrl: getEnvVal({name: "NEXT_PUBLIC_BASE_URL", isRequired: true}),
+    apiUrl: `${getEnvVal({name: "NEXT_PUBLIC_BASE_URL", isRequired: true})}/api`,
 }
 
 export const serverEnvConfig = {
-    databaseUrl: getEnvVal("DATABASE_URL"),
+    databaseUrl: getEnvVal({name: "DATABASE_URL", isRequired: true}),
 }
