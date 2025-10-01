@@ -6,6 +6,7 @@ import {useState} from "react";
 import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@clerk/nextjs";
 import Link from "next/link";
 import {scrollToSection} from "@/lib/scroll";
+import {envConfig} from "@/config/env";
 
 export default function LandingPageHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -57,28 +58,33 @@ export default function LandingPageHeader() {
                     >
                         About
                     </Button>
-                    <div
-                        className="flex items-center space-x-2 ml-4 pl-4 border-l border-gray-200 dark:border-gray-700">
-                        <SignedOut>
-                            <SignInButton>
-                                <Button
-                                    variant="outline"
-                                    className="hidden sm:inline-flex rounded-full"
-                                >
-                                    Sign In
-                                </Button>
-                            </SignInButton>
-                            <SignUpButton>
-                                <Button className="rounded-full">Get Started</Button>
-                            </SignUpButton>
-                        </SignedOut>
-                        <SignedIn>
-                            <Link href="/dashboard" passHref>
-                                <Button className="rounded-full">Visit Dashboard</Button>
-                            </Link>
-                            <UserButton/>
-                        </SignedIn>
-                    </div>
+
+                    {
+                        envConfig.displayAuth && (
+                            <div
+                                className="flex items-center space-x-2 ml-4 pl-4 border-l border-gray-200 dark:border-gray-700">
+                                <SignedOut>
+                                    <SignInButton>
+                                        <Button
+                                            variant="outline"
+                                            className="hidden sm:inline-flex rounded-full"
+                                        >
+                                            Sign In
+                                        </Button>
+                                    </SignInButton>
+                                    <SignUpButton>
+                                        <Button className="rounded-full">Get Started</Button>
+                                    </SignUpButton>
+                                </SignedOut>
+                                <SignedIn>
+                                    <Link href="/dashboard" passHref>
+                                        <Button className="rounded-full">Visit Dashboard</Button>
+                                    </Link>
+                                    <UserButton/>
+                                </SignedIn>
+                            </div>
+                        )
+                    }
                 </div>
 
                 <div className="md:hidden">
@@ -121,43 +127,34 @@ export default function LandingPageHeader() {
                         >
                             About
                         </Button>
-                        <div
-                            className="flex items-center justify-center space-x-4 pt-3 border-t border-gray-200 dark:border-gray-700">
-                            <SignedOut>
-                                <SignInButton>
-                                    <Button
-                                        variant="outline"
-                                        className="hidden sm:inline-flex rounded-full"
-                                    >
-                                        Sign In
-                                    </Button>
-                                </SignInButton>
-                                <SignUpButton>
-                                    <Button className="rounded-full">Get Started</Button>
-                                </SignUpButton>
-                            </SignedOut>
-                            <SignedIn>
-                                <Link href="/dashboard" passHref>
-                                    <Button className="rounded-full">Visit Dashboard</Button>
-                                </Link>
-                                <UserButton/>
-                            </SignedIn>
 
-                            {/*<Button*/}
-                            {/*    variant="ghost"*/}
-                            {/*    size="icon"*/}
-                            {/*    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"*/}
-                            {/*>*/}
-                            {/*    <User className="h-4 w-4"/>*/}
-                            {/*</Button>*/}
-                            {/*<Button*/}
-                            {/*    variant="ghost"*/}
-                            {/*    size="icon"*/}
-                            {/*    className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"*/}
-                            {/*>*/}
-                            {/*    <Settings className="h-4 w-4"/>*/}
-                            {/*</Button>*/}
-                        </div>
+                        {
+                            envConfig.displayAuth && (
+                                <div
+                                    className="flex items-center justify-center space-x-4 pt-3 border-t border-gray-200 dark:border-gray-700">
+                                    <SignedOut>
+                                        <SignInButton>
+                                            <Button
+                                                variant="outline"
+                                                className="hidden sm:inline-flex rounded-full"
+                                            >
+                                                Sign In
+                                            </Button>
+                                        </SignInButton>
+                                        <SignUpButton>
+                                            <Button className="rounded-full">Get Started</Button>
+                                        </SignUpButton>
+                                    </SignedOut>
+                                    <SignedIn>
+                                        <Link href="/dashboard" passHref>
+                                            <Button className="rounded-full">Visit Dashboard</Button>
+                                        </Link>
+                                        <UserButton/>
+                                    </SignedIn>
+                                </div>
+                            )
+                        }
+
                     </div>
                 </div>
             )}

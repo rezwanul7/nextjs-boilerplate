@@ -21,7 +21,9 @@ export async function seedPosts(authorId: string, count = 10, truncate = false) 
     const postsData = Array.from({length: count}).map(() => {
         const category = faker.helpers.arrayElement(categories) as Category;
         const title = faker.lorem.sentence();
-        const slug = faker.helpers.slugify(title).toLowerCase();
+        // Remove trailing dot (if any) before slugifying
+        const cleanedTitle = title.replace(/\.$/, '');
+        const slug = faker.helpers.slugify(cleanedTitle).toLowerCase();
         // const content = faker.lorem.paragraphs(faker.number.int({min: 1, max: 5}));
         const randomBlocks = getRandomBlockList(undefined, 2, 6);
         // e.g. ["heading", "paragraph", "code"]

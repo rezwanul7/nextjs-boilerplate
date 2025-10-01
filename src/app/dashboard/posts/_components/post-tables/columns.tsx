@@ -48,7 +48,7 @@ export const columns: ColumnDef<PostDto>[] = [
             const id = cell.row.original.id;
 
             return (
-                <Link href={`/dashboard/posts/${id}/edit`}>
+                <Link href={`/dashboard/posts/${id}/edit`} prefetch={false}>
                     <div className="max-w-xs truncate" title={title}>
                         {title}
                     </div>

@@ -1,14 +1,15 @@
-import {getEnvVal} from "@/lib/env.utils";
-
 export const getBaseUrl = () => {
-    const vercelEnv = getEnvVal({name: "VERCEL_ENV"});
-    const vercelUrl = getEnvVal({name: "VERCEL_URL"});
-    const vercelProductionUrl = getEnvVal({name: "VERCEL_PROJECT_PRODUCTION_URL"});
+    const vercelEnv = process.env.NEXT_PUBLIC_VERCEL_ENV;
+    const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
+    const vercelProductionUrl = process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL;
 
     if (vercelEnv) return vercelEnv === "production" ? `https://${vercelProductionUrl}` : `https://${vercelUrl}`;
 
-    const renderUrl = getEnvVal({name: "RENDER_EXTERNAL_URL"});
-    if (renderUrl) return renderUrl;
+    const url = process.env.NEXT_PUBLIC_BASE_URL;
 
-    return getEnvVal({name: "NEXT_PUBLIC_BASE_URL", isRequired: true});
+    if (!url) {
+        throw new Error("Missing environment variable: NEXT_PUBLIC_BASE_URL");
+    }
+
+    return url;
 }

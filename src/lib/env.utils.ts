@@ -4,13 +4,13 @@ type EnvVarOptions = {
     isRequired?: boolean
 }
 
-export function getEnvVal({name, default: def, isRequired = false}: EnvVarOptions): string {
+export function getServerOnlyEnvVal({name, default: def, isRequired = false}: EnvVarOptions): string {
     const value = process.env[name] || def
-    const usingOnClientSide = !(typeof window === "undefined")
+    const isServer = typeof window === "undefined"
 
     // Prevent leaking server-only vars to the client
-    if (usingOnClientSide && !name.startsWith("NEXT_PUBLIC_")) {
-        throw new Error(`You are using a non-NEXT_PUBLIC_ environment variable (${name}) on the client-side.`)
+    if (!isServer) {
+        throw new Error(`You are accessing a server-only environment variable (${name}) on the client-side.`)
     }
 
     // Enforce required variables
