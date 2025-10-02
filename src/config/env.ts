@@ -1,17 +1,19 @@
-function getEnvVal(name: string): string {
-    const value = process.env[name]
-    const isServer = typeof window === "undefined"
-    if (!value && isServer) {
-        throw new Error(`Missing environment variable: ${name} in server env`)
-    }
-    return value || ""
-}
+import {getBaseUrl} from "@/lib/base-url.utils";
 
+const baseUrl = getBaseUrl();
+
+// Define environment variables that can be used both on server and client
+// but do not include any sensitive information here
+// as this file will be included in the client bundle
 export const envConfig = {
-    baseUrl: getEnvVal("NEXT_PUBLIC_BASE_URL"),
-    apiUrl: `${getEnvVal("NEXT_PUBLIC_BASE_URL")}/api`,
+    isServer: typeof window === "undefined",
+    baseUrl: baseUrl,
+    apiUrl: `${baseUrl}/api`,
+    isProductionEnv: (process.env.NODE_ENV || "development") === "production",
+    displayAuth: (process.env.NEXT_PUBLIC_DISPLAY_AUTH || "false") === "true",
+    debug: (process.env.NEXT_PUBLIC_DEBUG || "false") === "true",
 }
 
-export const serverEnvConfig = {
-    databaseUrl: getEnvVal("DATABASE_URL"),
+if (envConfig.debug) {
+    console.log("envConfig", envConfig);
 }

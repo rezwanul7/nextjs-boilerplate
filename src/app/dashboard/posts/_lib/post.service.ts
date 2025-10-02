@@ -5,6 +5,11 @@ import {mergePostMeta} from "@/app/dashboard/posts/_lib/post.helper";
 import {ConflictError, ForbiddenError, NotFoundError, ValidationError,} from "@/lib/errors";
 
 export class PostService {
+
+    async getAllPosts(): Promise<PostDto[]> {
+        return await prisma.post.findMany() as PostDto[];
+    }
+
     async getPostById(postId: number): Promise<PostDto | null> {
         return await prisma.post.findUnique({
             where: {id: postId},

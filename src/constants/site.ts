@@ -1,3 +1,5 @@
+import {envConfig} from "@/config/env";
+
 export const siteData = {
     title: "My Awesome Site",
     subTitle: "A place to share my thoughts and projects",
@@ -9,7 +11,7 @@ export const siteData = {
     twitterHandle: "@rezwanul7",
 
     // URLs
-    url: process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000',       // Replace with your real domain
+    url: envConfig.baseUrl,       // Replace with your real domain
     repoUrl: "https://github.com/rezwanul7/micro-blog",
     authorUrl: "https://rezwanul7.github.io",
     ogImage: "/og-placeholder.png",             // Default OG image path

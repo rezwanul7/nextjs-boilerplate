@@ -1,4 +1,9 @@
 import {UserProfile} from '@clerk/nextjs'
+import type {Metadata} from "next";
+
+export const metadata: Metadata = {
+    title: 'Account'
+};
 
 const UserProfilePage = () => {
     return (
