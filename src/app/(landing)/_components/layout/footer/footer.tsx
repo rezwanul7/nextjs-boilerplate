@@ -3,6 +3,7 @@ import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import Link from "next/link"
 import {siteData} from "@/constants/site";
+import {Logo} from "@/app/(landing)/_components/layout/navbar/logo";
 
 export function Footer() {
     return (
@@ -11,16 +12,7 @@ export function Footer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-8">
                     {/* Brand Section */}
                     <div className="sm:col-span-2 lg:col-span-1">
-                        <div className="flex items-center space-x-3 mb-4 md:mb-6">
-                            <div
-                                className="h-8 w-8 md:h-10 md:w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
-                                <BookOpen className="h-4 w-4 md:h-5 md:w-5 text-white"/>
-                            </div>
-                            <div>
-                                <span className="font-bold text-lg md:text-xl text-white">DevBlog</span>
-                                <p className="text-xs text-gray-300 -mt-1">Knowledge Hub</p>
-                            </div>
-                        </div>
+                        <Logo variant={"dark"} className="mb-4 md:mb-6"/>
                         <p className="text-gray-300 text-sm leading-relaxed mb-4 md:mb-6 max-w-sm">
                             Your go-to destination for modern web development insights, tutorials, and best practices.
                             Join
@@ -173,7 +165,7 @@ export function Footer() {
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                         <div
                             className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm text-gray-300 text-center sm:text-left">
-                            <span>© 2024 DevBlog. All rights reserved.</span>
+                            <span>{siteData.footer.copyright}</span>
                             <div className="flex items-center gap-4 sm:gap-6">
                                 <Link href="#" className="hover:text-white transition-colors">
                                     Privacy Policy

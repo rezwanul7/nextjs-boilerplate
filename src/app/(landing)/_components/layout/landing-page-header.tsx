@@ -7,6 +7,7 @@ import {SignedIn, SignedOut, SignInButton, SignUpButton, UserButton} from "@cler
 import Link from "next/link";
 import {scrollToSection} from "@/lib/scroll";
 import {envConfig} from "@/config/env";
+import {Logo} from "@/app/(landing)/_components/layout/navbar/logo";
 
 export default function LandingPageHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -15,19 +16,8 @@ export default function LandingPageHeader() {
         <nav
             className="sticky top-0 z-50 border-b border-white/20 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 dark:supports-[backdrop-filter]:bg-gray-900/80 shadow-sm">
             <div className="flex h-16 items-center justify-between px-6 max-w-7xl mx-auto">
-                <Link href="/" className="flex items-center space-x-3">
-                    <div
-                        className="h-10 w-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
-                        <BookOpen className="h-5 w-5 text-white"/>
-                    </div>
-                    <div>
-                        <span className="font-bold text-xl text-gray-900 dark:text-white">
-                            DevBlog
-                        </span>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">
-                            Knowledge Hub
-                        </p>
-                    </div>
+                <Link href="/">
+                    <Logo/>
                 </Link>
 
                 <div className="hidden md:flex items-center space-x-6">
