@@ -1,8 +1,8 @@
-import {BookOpen} from "lucide-react";
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import Link from "next/link"
 import {siteData} from "@/constants/site";
+import {Logo} from "@/app/(landing)/_components/layout/navbar/logo";
 
 export function Footer() {
     return (
@@ -11,20 +11,11 @@ export function Footer() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {/* Brand Section */}
                     <div className="sm:col-span-2 lg:col-span-1">
-                        <div className="flex items-center space-x-3 mb-4">
-                            <div
-                                className="h-10 w-10 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
-                                <BookOpen className="h-5 w-5 text-white"/>
-                            </div>
-                            <div>
-                                <span className="font-bold text-xl">DevMicro</span>
-                                <p className="text-xs text-orange-200 -mt-1">Developer Community</p>
-                            </div>
-                        </div>
-                        <p className="text-orange-200 text-sm leading-relaxed mb-4">
-                            Join us as we explore the exciting world of web development, share knowledge, and build
-                            amazing things
-                            together.
+                        <Logo variant={"dark"} className="mb-4 md:mb-6"/>
+                        <p className="text-gray-300 text-sm leading-relaxed mb-4 md:mb-6 max-w-sm">
+                            Your go-to destination for modern web development insights, tutorials, and best practices.
+                            Join
+                            thousands of developers learning and growing together.
                         </p>
                         <div className="flex space-x-4">
                             <Button
@@ -158,8 +149,9 @@ export function Footer() {
                 {/* Bottom Bar */}
                 <div
                     className="border-t border-orange-800 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-                    <p className="text-orange-200 text-sm text-center sm:text-left">© 2024 DevMicro. All rights
-                        reserved.</p>
+                    <p className="text-orange-200 text-sm text-center sm:text-left">
+                        {siteData.footer.copyright}
+                    </p>
                     <div className="flex items-center gap-6">
                         <Link href="/privacy" className="text-orange-200 hover:text-white text-sm transition-colors">
                             Privacy Policy

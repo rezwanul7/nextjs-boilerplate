@@ -1,14 +1,9 @@
-import type {Metadata} from "next";
 import {SearchParams} from "nuqs/server";
 import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
 import PostList2 from "@/app/(landing)/posts/_components/post-list-2";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {fetchPosts} from "@/app/(landing)/posts/_lib/post.api.client";
 import {getQueryClient} from "@/lib/tanstack-query-client";
-
-export const metadata: Metadata = {
-    title: 'HomePage'
-};
 
 type pageProps = {
     searchParams: Promise<SearchParams>;

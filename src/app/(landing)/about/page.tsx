@@ -7,7 +7,7 @@ export default function Page() {
             {/* Hero Section */}
             <div className="bg-gradient-to-r from-orange-600 to-pink-600 text-white py-20">
                 <div className="max-w-4xl mx-auto px-6 text-center">
-                    <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">About DevMicro</h1>
+                    <h1 className="text-5xl md:text-6xl font-bold mb-6 text-balance">About MicroBlog</h1>
                     <p className="text-xl md:text-2xl text-orange-100 max-w-3xl mx-auto leading-relaxed">
                         Where developers share quick insights, spark conversations, and build community through
                         bite-sized content

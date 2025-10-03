@@ -9,7 +9,7 @@ export default function Header() {
         <header className="pt-6">
             <nav className="mx-4 h-16 bg-background border dark:border-slate-700/70 max-w-screen-xl rounded-full">
                 <div className="h-full flex items-center justify-between mx-auto px-4">
-                    <Logo/>
+                    <Logo variant={"dark"}/>
                     {/* Desktop Menu */}
                     <NavMenu className="hidden md:block"/>
                     <div className="flex items-center gap-3">

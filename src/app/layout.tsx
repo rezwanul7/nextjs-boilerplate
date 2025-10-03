@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
     title: {
-        default: `${siteData.title} - ${siteData.subTitle}`,
-        template: `%s | ${siteData.title}`,
+        default: `${siteData.name} - ${siteData.title}`,
+        template: `%s | ${siteData.name}`,
     },
     description: siteData.description,
     keywords: siteData.keywords, // Optional
@@ -29,17 +29,17 @@ export const metadata: Metadata = {
 
     // Open Graph
     openGraph: {
-        title: `${siteData.title} - ${siteData.subTitle}`,
+        title: `${siteData.name} - ${siteData.title}`,
         description: siteData.description,
         type: "website",
         url: siteData.url,
-        siteName: siteData.title,
+        siteName: siteData.name,
         images: [
             {
                 url: siteData.ogImage,
                 width: 1200,
                 height: 630,
-                alt: siteData.title,
+                alt: siteData.name,
             },
         ],
     },
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     // Twitter Card
     twitter: {
         card: "summary_large_image",
-        title: `${siteData.title} - ${siteData.subTitle}`,
+        title: `${siteData.name} - ${siteData.title}`,
         description: siteData.description,
         creator: siteData.twitterHandle || "@username",
         images: [siteData.ogImage],
