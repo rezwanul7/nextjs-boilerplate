@@ -1,15 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, Heart, MessageCircle, Repeat2, Share, Bookmark } from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Badge} from "@/components/ui/badge";
+import {Bookmark, Heart, MessageCircle, MoreHorizontal, Repeat2, Share} from "lucide-react";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {ImageWithFallback} from "@/components/images/image-with-fallback";
 import {getRoundRobinItem} from "@/lib/dummy";
+import {SamplePost} from "@/app/(landing)/posts/_data/samplePosts.data";
 
 interface PostListProps {
     items: PostDto[];
-    dummyPosts: any[];
+    dummyPosts: SamplePost[];
     handleLike: (id: number) => void;
     handleBookmark: (id: number) => void;
 }
@@ -34,7 +35,8 @@ export function PostList({
                         <div className="p-6 pb-4">
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
+                                    <div
+                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
                     <span className="text-sm font-bold text-white">
                       {dummyPost.initials}
                     </span>
@@ -53,7 +55,7 @@ export function PostList({
                                     size="icon"
                                     className="h-8 w-8 text-gray-400 hover:text-gray-600"
                                 >
-                                    <MoreHorizontal className="h-4 w-4" />
+                                    <MoreHorizontal className="h-4 w-4"/>
                                 </Button>
                             </div>
 
@@ -85,14 +87,16 @@ export function PostList({
                             </div>
 
                             {/* Engagement Stats */}
-                            <div className="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400 mb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                            <div
+                                className="flex items-center gap-6 text-xs text-gray-500 dark:text-gray-400 mb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
                                 <span>{dummyPost.likes} likes</span>
                                 <span>{dummyPost.comments} comments</span>
                                 <span>{dummyPost.reposts} reposts</span>
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
+                            <div
+                                className="flex items-center justify-between border-t border-gray-100 dark:border-gray-700 pt-4">
                                 <Button
                                     variant="ghost"
                                     size="sm"
@@ -112,7 +116,7 @@ export function PostList({
                                     size="sm"
                                     className="flex items-center gap-2 hover:bg-orange-50 hover:text-orange-600 text-gray-500"
                                 >
-                                    <MessageCircle className="h-4 w-4" />
+                                    <MessageCircle className="h-4 w-4"/>
                                     <span className="text-xs">{dummyPost.comments}</span>
                                 </Button>
 
@@ -121,7 +125,7 @@ export function PostList({
                                     size="sm"
                                     className="flex items-center gap-2 hover:bg-green-50 hover:text-green-600 text-gray-500"
                                 >
-                                    <Repeat2 className="h-4 w-4" />
+                                    <Repeat2 className="h-4 w-4"/>
                                     <span className="text-xs">{dummyPost.reposts}</span>
                                 </Button>
 
@@ -130,7 +134,7 @@ export function PostList({
                                     size="sm"
                                     className="flex items-center gap-2 hover:bg-gray-50 hover:text-gray-600 text-gray-500"
                                 >
-                                    <Share className="h-4 w-4" />
+                                    <Share className="h-4 w-4"/>
                                 </Button>
 
                                 <Button
