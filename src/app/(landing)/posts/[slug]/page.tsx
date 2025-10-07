@@ -232,7 +232,7 @@ export async function generateMetadata(props: {
 
     const title = blog.title || "Blog Post";
     const description = blog.content ? getTextFromJSONContent(blog.content).slice(0, 150) : "Read this amazing blog post.";
-    const image = blog.meta?.image || "/placeholder.png";
+    const image = blog.meta?.image || "/placeholder.svg";
 
     const url = `/blog/${params.slug}`;
 

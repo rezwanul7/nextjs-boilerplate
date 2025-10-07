@@ -7,6 +7,7 @@ import {Badge} from "@/components/ui/badge"
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {usePosts} from "@/app/(landing)/posts/_hooks/usePosts";
 import {getRoundRobinItem} from "@/lib/dummy";
+import {ImageWithFallback} from "@/components/images/image-with-fallback";
 
 
 const samplePosts = [
@@ -151,14 +152,6 @@ export default function PostList2() {
     return (
         <div className="max-w-2xl mx-auto px-6 py-8">
             {/*{isFetching && <span>Refreshing...</span>}*/}
-            <div className="p-6">
-                <PaginationSection
-                    totalCount={total}
-                    page={queryParams.page}
-                    perPage={queryParams.perPage}
-                    onPageChange={handlePageChange}
-                />
-            </div>
             <div className="space-y-6">
                 {items.map((post) => {
                     const dummyPost = getRoundRobinItem(post.id, samplePosts);
@@ -196,9 +189,11 @@ export default function PostList2() {
                                     </p>
                                     {dummyPost.image && (
                                         <div className="mt-4 rounded-xl overflow-hidden">
-                                            <img
-                                                src={dummyPost.image || "/placeholder.svg"}
+                                            <ImageWithFallback
+                                                src={dummyPost.image}
                                                 alt="Post image"
+                                                width={64}
+                                                height={64}
                                                 className="w-full h-48 object-cover"
                                             />
                                         </div>
@@ -275,6 +270,15 @@ export default function PostList2() {
                         </div>
                     );
                 })}
+            </div>
+
+            <div className="p-6">
+                <PaginationSection
+                    totalCount={total}
+                    page={queryParams.page}
+                    perPage={queryParams.perPage}
+                    onPageChange={handlePageChange}
+                />
             </div>
 
             {/* Load More Button */}
