@@ -1,5 +1,5 @@
 import {SearchParams} from "nuqs/server";
-import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
+import {GetPostsSearchParamsDto, postSearch} from "@/app/dashboard/posts/_lib/post.search";
 import PostListWrapper from "@/app/(landing)/posts/_components/post-list-wrapper";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {fetchPosts} from "@/app/(landing)/posts/_lib/post.api.client";
@@ -10,7 +10,10 @@ type pageProps = {
 };
 
 export default async function Page(props: pageProps) {
-    const searchParams = await props.searchParams;
+    const searchParamsRaw = await props.searchParams;
+
+    // Convert/parse search params to match NuQS expected structure
+    const searchParams: GetPostsSearchParamsDto = postSearch.cache.parse(searchParamsRaw);
 
     // 1. Get the initial post data (SSR)
     const queryString = postSearch.serialize(searchParams);

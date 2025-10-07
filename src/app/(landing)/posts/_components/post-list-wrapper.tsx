@@ -65,13 +65,6 @@ export default function PostListWrapper() {
                     onPageChange={handlePageChange}
                 />
             </div>
-
-            {/* Load More Button */}
-            <div className="text-center mt-8">
-                <Button variant="outline" className="px-8 py-2 bg-transparent">
-                    Load More Posts
-                </Button>
-            </div>
         </div>
     )
 }
