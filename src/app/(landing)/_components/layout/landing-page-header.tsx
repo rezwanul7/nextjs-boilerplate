@@ -32,14 +32,15 @@ export default function LandingPageHeader() {
                         </Button>
                     </Link>
 
-                    <Button
-                        variant="ghost"
-                        size="sm"
-                        disabled
-                        className="text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60 font-medium"
-                    >
-                        Explore
-                    </Button>
+                    <Link href="/explore">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-gray-700 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 font-medium"
+                        >
+                            Explore
+                        </Button>
+                    </Link>
 
                     <Button
                         variant="ghost"
