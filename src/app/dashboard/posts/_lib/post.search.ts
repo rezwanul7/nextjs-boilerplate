@@ -15,7 +15,7 @@ const postSearchParams = {
 
     //
     page: parseAsInteger.withDefault(1),
-    perPage: parseAsInteger.withDefault(5),
+    perPage: parseAsInteger.withDefault(10),
     sort: getSortingStateParser<PostDto>(["title", "createdAt"])
         .withDefault([
             // {id: "createdAt", desc: true}

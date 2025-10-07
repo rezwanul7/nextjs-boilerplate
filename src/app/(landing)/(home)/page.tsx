@@ -1,6 +1,6 @@
 import {SearchParams} from "nuqs/server";
 import {postSearch} from "@/app/dashboard/posts/_lib/post.search";
-import PostList2 from "@/app/(landing)/posts/_components/post-list-2";
+import PostListWrapper from "@/app/(landing)/posts/_components/post-list-wrapper";
 import {dehydrate, HydrationBoundary} from "@tanstack/react-query";
 import {fetchPosts} from "@/app/(landing)/posts/_lib/post.api.client";
 import {getQueryClient} from "@/lib/tanstack-query-client";
@@ -27,7 +27,7 @@ export default async function Page(props: pageProps) {
         <div>
             <HydrationBoundary state={dehydrate(queryClient)}>
                 {/*<HeroSection/>*/}
-                <PostList2
+                <PostListWrapper
                     // posts={items} total={total}
                 />
             </HydrationBoundary>
