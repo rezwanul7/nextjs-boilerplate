@@ -1,12 +1,7 @@
 'use client';
 
 import {useState} from "react"
-import {Bookmark, Heart, MessageCircle, MoreHorizontal, Repeat2, Share,} from "lucide-react"
-import {Button} from "@/components/ui/button"
-import {Badge} from "@/components/ui/badge"
 import {usePosts} from "@/app/(landing)/posts/_hooks/usePosts";
-import {getRoundRobinItem} from "@/lib/dummy";
-import {ImageWithFallback} from "@/components/images/image-with-fallback";
 import {PostListSkeleton} from "@/app/(landing)/posts/_components/post-list-skeleton";
 import {PostListPagination} from "@/app/(landing)/posts/_components/post-list-pagination";
 import {samplePosts} from "@/app/(landing)/posts/_data/samplePosts.data";
