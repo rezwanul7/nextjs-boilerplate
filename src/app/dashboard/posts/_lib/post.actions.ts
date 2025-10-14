@@ -80,3 +80,30 @@ export async function updatePost(
         return handleServerActionError(error);
     }
 }
+
+export async function publishPost(
+    postId: number,
+    published = true
+): Promise<ServerActionResult<PostDto>> {
+    try {
+        const {userId} = await auth();
+        if (!userId) return {success: false, message: "Unauthorized"};
+
+        const author = await getOrCreateCurrentUser();
+
+        // Update post
+        const post = await postService.publishPost(postId, author.id, published);
+
+        return {success: true, message: `Post ${published ? "published" : "unpublished"} successfully`, data: post};
+    } catch (error) {
+        return handleServerActionError(error);
+    }
+}
+
+
+export async function unpublishPost(
+    postId: number,
+    published = true
+): Promise<ServerActionResult<PostDto>> {
+    return publishPost(postId, false);
+}
