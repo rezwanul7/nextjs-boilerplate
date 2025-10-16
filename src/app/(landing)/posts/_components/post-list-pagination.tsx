@@ -1,4 +1,5 @@
 import {Button} from "@/components/ui/button";
+import {useEffect} from "react";
 
 interface PaginationSectionProps {
     page: number;
@@ -15,19 +16,18 @@ export function PostListPagination({
                                    }: PaginationSectionProps) {
     const totalPages = Math.max(1, Math.ceil(totalCount / perPage));
 
-    const handlePrev = () => {
-        if (page > 1) {
-            onPageChange(page - 1);
-            window.scrollTo({top: 0, behavior: "smooth"});
-        }
+    // ✅ Scroll to top every time page changes
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        console.log("Scrolled to top after page change");
+    }, [page]);
 
+    const handlePrev = () => {
+        if (page > 1) onPageChange(page - 1);
     };
 
     const handleNext = () => {
-        if (page < totalPages) {
-            onPageChange(page + 1);
-            window.scrollTo({top: 0, behavior: "smooth"});
-        }
+        if (page < totalPages) onPageChange(page + 1);
     };
 
     return (
