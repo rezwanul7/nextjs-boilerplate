@@ -1,17 +1,16 @@
 import {createSearchParamsUtils} from "@/lib/search-params";
-import {parseAsArrayOf, parseAsBoolean, parseAsInteger, parseAsString} from "nuqs/server";
+import {parseAsArrayOf, parseAsBoolean, parseAsInteger, parseAsString, parseAsStringEnum} from "nuqs/server";
 import {getSortingStateParser} from "@/lib/search-params.parsers";
 import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {CategoryUtils} from "@/app/dashboard/posts/_lib/category.utils";
-import {z} from "zod";
 
 // Query params for /posts endpoint
 const postSearchParams = {
     title: parseAsString,
     authorId: parseAsString,
     published: parseAsBoolean,
-    category: parseAsArrayOf(CategoryUtils.zodSchema).withDefault([]),
-    createdAt: parseAsArrayOf(z.coerce.number()).withDefault([]),
+    category: parseAsArrayOf(parseAsStringEnum(CategoryUtils.zodSchema.options)).withDefault([]),
+    createdAt: parseAsArrayOf(parseAsInteger).withDefault([]),
 
     //
     page: parseAsInteger.withDefault(1),
