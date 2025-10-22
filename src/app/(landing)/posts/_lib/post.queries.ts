@@ -92,9 +92,14 @@ export async function getPostById(id: number): Promise<PostDto | null> {
 
 
 export async function getPostBySlug(slug: string): Promise<PostDto | null> {
-    return await prisma.post.findUnique({
-        where: {slug},
-    }) as PostDto;
+    const post = await prisma.post.findUnique({
+        where: { slug },
+        include: {
+            author: true, // Include the related author data
+        },
+    });
+
+    return post as PostDto | null;
 }
 
 export async function getCategoryCountsMap(
