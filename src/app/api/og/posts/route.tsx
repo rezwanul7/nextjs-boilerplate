@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
                     alignItems: "center",
                     width: "1200px",
                     height: "630px",
-                    background: "linear-gradient(135deg, #2563EB, #4F46E5, #5B21B6)",
+                    background: "linear-gradient(135deg, #f97316, #ec4899)",
                     borderRadius: "24px",
                     padding: "80px",
                     textAlign: "center",
