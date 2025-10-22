@@ -7,6 +7,8 @@ import {PostDto} from "@/app/dashboard/posts/_lib/post.dto";
 import {ImageWithFallback} from "@/components/images/image-with-fallback";
 import {getRoundRobinItem} from "@/lib/dummy";
 import {SamplePost} from "@/app/(landing)/posts/_data/samplePosts.data";
+import {AvatarWithFallback} from "@/components/images/avatar-with-fallback";
+import {getInitials} from "@/lib/images/initials";
 
 interface PostListProps {
     items: PostDto[];
@@ -35,15 +37,13 @@ export function PostList({
                         <div className="p-6 pb-4">
                             <div className="flex items-start justify-between mb-4">
                                 <div className="flex items-center gap-3">
-                                    <div
-                                        className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
-                    <span className="text-sm font-bold text-white">
-                      {dummyPost.initials}
-                    </span>
-                                    </div>
+                                    <AvatarWithFallback
+                                        imageUrl={post.author?.imageUrl}
+                                        initials={getInitials(post.author?.firstName, post.author?.lastName)}
+                                    />
                                     <div>
                                         <h3 className="font-semibold text-gray-900 dark:text-white text-sm">
-                                            {dummyPost.author}
+                                            {post.author?.firstName + " " + post.author?.lastName}
                                         </h3>
                                         <p className="text-xs text-gray-500 dark:text-gray-400">
                                             {dummyPost.username} • {dummyPost.timeAgo}

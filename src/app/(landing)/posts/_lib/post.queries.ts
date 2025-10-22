@@ -71,6 +71,8 @@ export async function searchHomePosts(params: GetPostsSearchParamsDto): Promise<
                 select: {
                     id: true,
                     firstName: true,
+                    lastName: true,
+                    imageUrl: true,
                 },
             },
         },

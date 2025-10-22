@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
+                hostname: "img.clerk.com",
+            },
+            {
+                protocol: "https",
                 hostname: "api.slingacademy.com",
                 pathname: "/public/sample-products/**",
             },
