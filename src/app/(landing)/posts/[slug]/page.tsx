@@ -10,6 +10,7 @@ import {getPostBySlug} from "@/app/(landing)/posts/_lib/post.queries";
 import {Metadata} from "next";
 import {getHTMLFromJSONContent, getTextFromJSONContent} from "@/lib/tiptap/tiptap.utils";
 import BlogPageRelatedPosts from "@/app/(landing)/posts/[slug]/_components/blog-page-related-posts";
+import {envConfig} from "@/config/env";
 
 // Sample blog post data
 const blogPost = {
@@ -220,50 +221,58 @@ Whether you're building a simple blog or a complex enterprise application, Next.
 }
 
 export async function generateMetadata(props: {
-    params: Promise<{ slug: string }>
+    params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const params = await props.params;
     const slug = params.slug;
 
     const blog = await getPostBySlug(slug);
     if (!blog) {
-        return {title: "Blog not found"};
+        return { title: "Blog not found" };
     }
 
     const title = blog.title || "Blog Post";
-    const description = blog.content ? getTextFromJSONContent(blog.content).slice(0, 150) : "Read this amazing blog post.";
-    const image = blog.meta?.image || "/placeholder.png";
+    const description = blog.content
+        ? getTextFromJSONContent(blog.content).slice(0, 150)
+        : "Read this amazing blog post.";
+    const author = (blog.author?.firstName + " " + blog.author?.lastName) || "Author";
 
-    const url = `/blog/${params.slug}`;
+    // Build dynamic OG image URL
+    const ogUrl = new URL(`${envConfig.baseUrl}/api/og/posts`);
+    ogUrl.searchParams.set("title", title);
+    ogUrl.searchParams.set("author", author);
+    if (blog.updatedAt) ogUrl.searchParams.set("date", blog.updatedAt.toISOString());
+
+    // Fallback image if OG API fails
+    const fallbackImage = blog.meta?.image || "/placeholder.png";
+
+    const url = `${envConfig.baseUrl}/blog/${slug}`;
 
     return {
-        title: title,
-        description: description,
-
+        title,
+        description,
         alternates: {
             canonical: url,
         },
-
         openGraph: {
             type: "article",
             url,
-            title: title,
-            description: description,
+            title,
+            description,
             images: [
                 {
-                    url: image,
+                    url: ogUrl.toString() || fallbackImage,
                     width: 1200,
                     height: 630,
                     alt: title,
                 },
             ],
         },
-
         twitter: {
             card: "summary_large_image",
-            title: title,
-            description: description,
-            images: [image],
+            title,
+            description,
+            images: [ogUrl.toString() || fallbackImage],
         },
     };
 }
