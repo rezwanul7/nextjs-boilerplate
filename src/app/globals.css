@@ -3,6 +3,8 @@
 
 @import "tailwindcss";
 @import "tw-animate-css";
+@import '../styles/custom-tokens.css';
+@import '../styles/tiptap-bridge.css';
 
 /* plugins */
 @plugin "@tailwindcss/typography";

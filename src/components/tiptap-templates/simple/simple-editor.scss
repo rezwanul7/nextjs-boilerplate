@@ -1,13 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
-body {
-  --tt-toolbar-height: 44px;
-  --tt-theme-text: var(--tt-gray-light-900);
-
-  .dark & {
-    --tt-theme-text: var(--tt-gray-dark-900);
-  }
-}
+//body {
+//  --tt-toolbar-height: 44px;
+//  --tt-theme-text: var(--tt-gray-light-900);
+//
+//  .dark & {
+//    --tt-theme-text: var(--tt-gray-dark-900);
+//  }
+//}
 
 //body {
 //  font-family: "Inter", sans-serif;
@@ -79,4 +79,18 @@ body {
   .simple-editor-content .tiptap.ProseMirror.simple-editor {
     padding: 1rem 1.5rem 30vh;
   }
+}
+
+.simple-editor-wrapper .tt-button.is-active,
+.simple-editor-wrapper .tt-button:active,
+.simple-editor-wrapper .tt-button:focus {
+  color: var(--tt-brand-color-600);
+  background-color: var(--tt-brand-color-50);
+  border-color: var(--tt-brand-color-100);
+}
+
+.dark .simple-editor-wrapper .tt-button.is-active {
+  color: var(--tt-brand-color-400);
+  background-color: rgba(122, 82, 255, 0.15);
+  border-color: rgba(122, 82, 255, 0.2);
 }

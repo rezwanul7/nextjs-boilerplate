@@ -1,0 +1,26 @@
+/* styles/tokens.css */
+:root {
+    /* Brand Color Scale (Your Identity) */
+    --brand-50:  #f5f9ff;
+    --brand-100: #e0edff;
+    --brand-200: #bcd9ff;
+    --brand-300: #91bfff;
+    --brand-400: #639eff;
+    --brand-500: #3a6d8c; /* Main Brand Tone */
+    --brand-600: #2d5970;
+    --brand-700: #234559;
+    --brand-800: #1b3342;
+    --brand-900: #13222b;
+
+    /* Neutral (gray) scale */
+    --neutral-50:  #f9fafb;
+    --neutral-100: #f3f4f6;
+    --neutral-200: #e5e7eb;
+    --neutral-300: #d1d5db;
+    --neutral-400: #9ca3af;
+    --neutral-500: #6b7280;
+    --neutral-600: #4b5563;
+    --neutral-700: #374151;
+    --neutral-800: #1f2937;
+    --neutral-900: #111827;
+}
